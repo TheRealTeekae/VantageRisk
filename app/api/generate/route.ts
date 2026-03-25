@@ -1,17 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEngagement, updateEngagement, attachReport } from "@/lib/store";
 import { generateRenewalReport } from "@/lib/anthropic";
-import { isValidAdminToken, getAdminTokenFromCookie } from "@/lib/auth";
+import { requireAdmin } from "@/lib/auth";
 import { RenewalReport } from "@/types";
-
-function requireAdmin(request: NextRequest): boolean {
-  const token = getAdminTokenFromCookie(request.headers.get("cookie"));
-  return token ? isValidAdminToken(token) : false;
-}
 
 // POST /api/generate — trigger report generation for an engagement (admin only)
 export async function POST(request: NextRequest) {
-  if (!requireAdmin(request)) {
+  if (!(await requireAdmin(request))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

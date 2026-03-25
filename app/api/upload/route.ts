@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createEngagement, updateEngagement } from "@/lib/store";
 import { extractDocumentData } from "@/lib/anthropic";
+import { guessDocumentType, validateUploadedFiles } from "@/lib/documents";
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,10 +16,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!files || files.length === 0) {
+    const validationError = validateUploadedFiles(files);
+    if (validationError) {
       return NextResponse.json(
-        { error: "At least one file is required" },
-        { status: 400 }
+        { error: validationError.error },
+        { status: validationError.status }
       );
     }
 
@@ -70,27 +72,4 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
-}
-
-function guessDocumentType(
-  filename: string
-): "policy" | "loss_run" | "market_data" | "other" {
-  const lower = filename.toLowerCase();
-  if (lower.includes("loss") || lower.includes("run") || lower.includes("claims")) {
-    return "loss_run";
-  }
-  if (lower.includes("policy") || lower.includes("dec") || lower.includes("binder")) {
-    return "policy";
-  }
-  if (
-    lower.includes("market") ||
-    lower.includes("rate change") ||
-    lower.includes("benchmark") ||
-    lower.includes("capacity") ||
-    lower.includes("renewal outlook") ||
-    lower.includes("market update")
-  ) {
-    return "market_data";
-  }
-  return "other";
 }

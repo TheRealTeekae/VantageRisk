@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Engagement } from "@/types";
+import { formatDateTime } from "@/lib/utils";
 
 export default function AdminPage() {
   const [password, setPassword] = useState("");
@@ -135,7 +136,7 @@ export default function AdminPage() {
                   <StatusBadge status={eng.status} />
                 </div>
                 <p className="text-xs text-slate-400 mt-1">
-                  {eng.files.length} file(s) &middot; Submitted {formatDate(eng.submittedAt)} &middot; <span className="font-mono">{eng.id}</span>
+                  {eng.files.length} file(s) &middot; Submitted {formatDateTime(eng.submittedAt)} &middot; <span className="font-mono">{eng.id}</span>
                 </p>
               </div>
 
@@ -181,11 +182,3 @@ function StatusBadge({ status }: { status: Engagement["status"] }) {
   );
 }
 
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-  });
-}

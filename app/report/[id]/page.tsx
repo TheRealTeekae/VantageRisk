@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import { Engagement, RenewalReport, YearlyLossBreakdown } from "@/types";
+import { formatDate } from "@/lib/utils";
 import {
   BarChart,
   Bar,
@@ -22,7 +23,7 @@ export default function ReportPage() {
   const reportRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    fetch(`/api/reports?id=${id}`)
+    fetch(`/api/report/${id}`)
       .then((r) => {
         if (!r.ok) throw new Error("Not found");
         return r.json();
@@ -335,10 +336,3 @@ function TrendPill({
   );
 }
 
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
-}

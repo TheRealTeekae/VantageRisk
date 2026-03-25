@@ -1,17 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { listEngagements, getEngagement } from "@/lib/store";
-import { isValidAdminToken, getAdminTokenFromCookie } from "@/lib/auth";
-
-function requireAdmin(request: NextRequest): boolean {
-  const token = getAdminTokenFromCookie(
-    request.headers.get("cookie")
-  );
-  return token ? isValidAdminToken(token) : false;
-}
+import { requireAdmin } from "@/lib/auth";
 
 // GET /api/reports — list all engagements (admin only)
 export async function GET(request: NextRequest) {
-  if (!requireAdmin(request)) {
+  if (!(await requireAdmin(request))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
