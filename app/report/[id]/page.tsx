@@ -281,7 +281,7 @@ function LossBarChart({ data }: { data: YearlyLossBreakdown[] }) {
           <XAxis dataKey="year" tick={{ fontSize: 11, fill: "#94a3b8" }} />
           <YAxis tickFormatter={formatDollar} tick={{ fontSize: 11, fill: "#94a3b8" }} width={56} />
           <Tooltip
-            formatter={(value: number, name: string) => [formatDollar(value), name === "paid" ? "Paid Losses" : "Reserves"]}
+            formatter={(value, name: string) => [formatDollar(value as number), name === "paid" ? "Paid Losses" : "Reserves"]}
             contentStyle={{ fontSize: 12, borderRadius: 8, border: "1px solid #e2e8f0" }}
           />
           <Legend
