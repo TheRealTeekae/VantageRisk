@@ -1,4 +1,4 @@
-// Report page — renders a completed Renewal Intelligence Report for a given engagement ID.
+// Report page — renders a completed Renewal Intelligence Report for a given engagement.
 "use client";
 
 import { useEffect, useRef, useState } from "react";
