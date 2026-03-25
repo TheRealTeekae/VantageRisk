@@ -1,9 +1,39 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import { NextRequest } from "next/server";
 
 // Must set env before imports that read it at module load
 process.env.JWT_SECRET = "test-secret-at-least-32-chars-long!!";
 process.env.ADMIN_PASSWORD = "test-admin-password";
+
+// ─── MOCK @upstash/redis ──────────────────────────────────────────────────────
+const _store = new Map<string, unknown>();
+const _sortedSets = new Map<string, { score: number; member: string }[]>();
+
+vi.mock("@upstash/redis", () => {
+  const Redis = vi.fn(function () {
+    return {
+      set: async (key: string, value: unknown) => {
+        _store.set(key, JSON.parse(JSON.stringify(value)));
+        return "OK";
+      },
+      get: async (key: string) => _store.get(key) ?? null,
+      zadd: async (
+        key: string,
+        { score, member }: { score: number; member: string }
+      ) => {
+        const set = _sortedSets.get(key) ?? [];
+        const filtered = set.filter((e) => e.member !== member);
+        filtered.push({ score, member });
+        _sortedSets.set(key, filtered);
+        return 1;
+      },
+      zrange: async () => [],
+      mget: async (...keys: string[]) =>
+        keys.map((k) => _store.get(k) ?? null),
+    };
+  });
+  return { Redis };
+});
 
 import { GET } from "@/app/api/report/[id]/route";
 import { createEngagement, attachReport } from "@/lib/store";
@@ -30,6 +60,11 @@ function makeReport(engagementId: string): RenewalReport {
   };
 }
 
+beforeEach(() => {
+  _store.clear();
+  _sortedSets.clear();
+});
+
 describe("GET /api/report/[id]", () => {
   it("returns 404 for unknown engagement", async () => {
     const req = new NextRequest("http://localhost/api/report/nonexistent-id");
@@ -38,7 +73,7 @@ describe("GET /api/report/[id]", () => {
   });
 
   it("returns 404 when engagement exists but report not yet generated", async () => {
-    const eng = createEngagement("Test Client");
+    const eng = await createEngagement("Test Client");
     const req = new NextRequest(`http://localhost/api/report/${eng.id}`);
     const res = await GET(req, { params: Promise.resolve({ id: eng.id }) });
     expect(res.status).toBe(404);
@@ -47,8 +82,8 @@ describe("GET /api/report/[id]", () => {
   });
 
   it("returns engagement with report when complete", async () => {
-    const eng = createEngagement("Acme Corp");
-    attachReport(eng.id, makeReport(eng.id));
+    const eng = await createEngagement("Acme Corp");
+    await attachReport(eng.id, makeReport(eng.id));
 
     const req = new NextRequest(`http://localhost/api/report/${eng.id}`);
     const res = await GET(req, { params: Promise.resolve({ id: eng.id }) });
@@ -60,8 +95,8 @@ describe("GET /api/report/[id]", () => {
   });
 
   it("does not require admin cookie", async () => {
-    const eng = createEngagement("No Auth Client");
-    attachReport(eng.id, makeReport(eng.id));
+    const eng = await createEngagement("No Auth Client");
+    await attachReport(eng.id, makeReport(eng.id));
 
     // No cookie set on request
     const req = new NextRequest(`http://localhost/api/report/${eng.id}`);

@@ -10,15 +10,93 @@ export type EngagementStatus =
 export interface Engagement {
   id: string;
   clientName: string;
+  clientEmail?: string;
   submittedAt: string;
   status: EngagementStatus;
   files: UploadedFile[];
   extractedData?: {
-    policies: unknown[];
-    lossRuns: unknown[];
-    marketData: unknown[];
+    policies: PolicyExtraction[];
+    lossRuns: LossRunExtraction[];
+    marketData: MarketDataExtraction[];
   };
   report?: RenewalReport;
+}
+
+// ─── EXTRACTION TYPES ────────────────────────────────────────────────────────
+// These mirror the JSON shapes returned by the extraction prompts in
+// lib/anthropic.ts. Keep in sync if prompts change.
+
+export interface PolicyExtraction {
+  documentType: "policy";
+  namedInsured: string | null;
+  policyNumber: string | null;
+  carrier: string | null;
+  effectiveDate: string | null;
+  expirationDate: string | null;
+  lineOfBusiness: string | null;
+  premium: string | null;
+  limits: {
+    perOccurrence: string | null;
+    aggregate: string | null;
+    additionalLimits: { label: string; amount: string }[];
+  };
+  deductibleOrSIR: {
+    type: "deductible" | "SIR" | null;
+    amount: string | null;
+  };
+  sublimits: { coverage: string; limit: string }[];
+  keyExclusions: string[];
+  manuscriptEndorsements: string[];
+  notes: string[];
+}
+
+export interface LossRunExtraction {
+  documentType: "loss_run";
+  namedInsured: string | null;
+  carrier: string | null;
+  lineOfBusiness: string | null;
+  policyPeriod: {
+    effectiveDate: string | null;
+    expirationDate: string | null;
+  };
+  summary: {
+    totalClaimCount: number | null;
+    openClaimCount: number | null;
+    closedClaimCount: number | null;
+    totalPaid: string | null;
+    totalReserves: string | null;
+    totalIncurred: string | null;
+  };
+  claims: {
+    claimNumber: string | null;
+    dateOfLoss: string | null;
+    dateReported: string | null;
+    claimant: string | null;
+    description: string | null;
+    paid: string | null;
+    reserves: string | null;
+    totalIncurred: string | null;
+    status: "open" | "closed" | null;
+    isLargeLoss: boolean;
+  }[];
+  largeLossThreshold: string;
+  adverseDevelopmentFlags: string[];
+  notes: string[];
+}
+
+export interface MarketDataExtraction {
+  documentType: "market_data";
+  sourceDate: string | null;
+  linesOfBusiness: {
+    line: string;
+    marketCondition: "hardening" | "softening" | "stable" | null;
+    rateChangeIndication: string | null;
+    capacityNotes: string | null;
+    underwritingAppetiteChanges: string | null;
+    benchmarkLimits: { accountSize: string; typicalLimit: string }[];
+  }[];
+  broadMarketNotes: string[];
+  sourceName: string | null;
 }
 
 export interface UploadedFile {

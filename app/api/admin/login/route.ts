@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
   const ip =
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
 
-  const rateLimit = rateLimitCheck(ip);
+  const rateLimit = await rateLimitCheck(ip);
   if (!rateLimit.allowed) {
     return NextResponse.json(
       { error: "Too many login attempts. Please try again later." },
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid password" }, { status: 401 });
   }
 
-  rateLimitReset(ip);
+  await rateLimitReset(ip);
   const token = await signAdminJWT();
 
   const response = NextResponse.json({ success: true });

@@ -16,15 +16,15 @@
 //      verifyAdminJWT(token) → { role: "admin" } | null
 //      null → return false
 //
-//  RATE LIMITER:
-//    Map<ip, { count: number, resetAt: number }>
-//    5 attempts per 15-minute window per IP
-//    Resets to zero on successful login
-//    NOTE: in-memory — resets on cold start (acceptable for MVP)
-//    TODO: migrate to Vercel KV in PR2 for persistence across cold starts
+//  RATE LIMITER (KV-backed, fail-open):
+//    Redis INCR + EXPIRE pattern — atomic, persists across cold starts.
+//    Key: rate:login:{ip}, TTL: 15 minutes, max 5 attempts per window.
+//    Resets to zero on successful login (DEL key).
+//    Fail-open: if KV is unavailable, the request is allowed through.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { SignJWT, jwtVerify } from "jose";
+import { Redis } from "@upstash/redis";
 import type { NextRequest } from "next/server";
 
 const RATE_LIMIT_MAX = 5;
@@ -91,32 +91,48 @@ export async function requireAdmin(request: NextRequest): Promise<boolean> {
   return verifyAdminJWT(token);
 }
 
-// ─── RATE LIMITER ────────────────────────────────────────────────────────────
+// ─── RATE LIMITER (KV-backed) ────────────────────────────────────────────────
 
-interface RateLimitEntry {
-  count: number;
-  resetAt: number;
+let _redis: Redis | null = null;
+
+function getRateLimitRedis(): Redis {
+  if (!_redis) {
+    _redis = new Redis({
+      url: process.env.KV_REST_API_URL ?? "",
+      token: process.env.KV_REST_API_TOKEN ?? "",
+    });
+  }
+  return _redis;
 }
 
-const loginAttempts = new Map<string, RateLimitEntry>();
+const RATE_KEY = (ip: string) => `rate:login:${ip}`;
 
-export function rateLimitCheck(ip: string): { allowed: boolean; remaining: number } {
-  const now = Date.now();
-  const entry = loginAttempts.get(ip);
-
-  if (!entry || now >= entry.resetAt) {
-    loginAttempts.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
-    return { allowed: true, remaining: RATE_LIMIT_MAX - 1 };
+export async function rateLimitCheck(
+  ip: string
+): Promise<{ allowed: boolean; remaining: number }> {
+  try {
+    const redis = getRateLimitRedis();
+    const key = RATE_KEY(ip);
+    const count = await redis.incr(key);
+    if (count === 1) {
+      // First attempt in this window — start TTL so the key auto-expires
+      await redis.expire(key, Math.floor(RATE_LIMIT_WINDOW_MS / 1000));
+    }
+    if (count > RATE_LIMIT_MAX) {
+      return { allowed: false, remaining: 0 };
+    }
+    return { allowed: true, remaining: RATE_LIMIT_MAX - count };
+  } catch {
+    // Fail-open: if KV is unavailable, allow the request
+    console.warn("[auth] Rate limit KV unavailable — failing open");
+    return { allowed: true, remaining: RATE_LIMIT_MAX };
   }
-
-  if (entry.count >= RATE_LIMIT_MAX) {
-    return { allowed: false, remaining: 0 };
-  }
-
-  entry.count += 1;
-  return { allowed: true, remaining: RATE_LIMIT_MAX - entry.count };
 }
 
-export function rateLimitReset(ip: string): void {
-  loginAttempts.delete(ip);
+export async function rateLimitReset(ip: string): Promise<void> {
+  try {
+    await getRateLimitRedis().del(RATE_KEY(ip));
+  } catch {
+    // Best effort — ignore failures
+  }
 }

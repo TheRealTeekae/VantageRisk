@@ -1,8 +1,30 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import { NextRequest } from "next/server";
 
 process.env.JWT_SECRET = "test-secret-at-least-32-chars-long!!";
 process.env.ADMIN_PASSWORD = "test-admin-password";
+
+// ─── MOCK @upstash/redis ──────────────────────────────────────────────────────
+const _rlStore = new Map<string, number>();
+
+vi.mock("@upstash/redis", () => {
+  // Must use a regular function (not arrow) so `new Redis()` works
+  const Redis = vi.fn(function () {
+    return {
+      incr: async (key: string) => {
+        const cur = (_rlStore.get(key) ?? 0) + 1;
+        _rlStore.set(key, cur);
+        return cur;
+      },
+      expire: async () => 1,
+      del: async (key: string) => {
+        _rlStore.delete(key);
+        return 1;
+      },
+    };
+  });
+  return { Redis };
+});
 
 import { POST, DELETE } from "@/app/api/admin/login/route";
 import { rateLimitReset } from "@/lib/auth";
@@ -22,8 +44,9 @@ function makeLoginRequest(password: string, ip = "127.0.0.1"): NextRequest {
 describe("POST /api/admin/login", () => {
   const testIp = "10.0.0." + Math.floor(Math.random() * 255);
 
-  beforeEach(() => {
-    rateLimitReset(testIp);
+  beforeEach(async () => {
+    _rlStore.clear();
+    await rateLimitReset(testIp);
   });
 
   it("returns 200 and sets JWT cookie on valid password", async () => {

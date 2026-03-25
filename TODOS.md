@@ -42,7 +42,7 @@ document API may return mostly-null extraction for these, producing incomplete r
 try text extraction first, then native doc if text is empty, or vice versa.
 
 **Effort:** M (human) → S (CC)
-**Depends on:** Async extraction (so the fallback retry doesn't block the upload).
+**Depends on:** ~~Async extraction~~ — unblocked. `after()` extraction shipped in PR2.
 
 ---
 
@@ -66,22 +66,3 @@ is a good time to add pagination since the interface is changing anyway.
 
 ---
 
-## PR2 Bundle Items
-
-### Migrate rate limiter from in-memory Map to Vercel KV
-**What:** Replace the `Map<ip, { count, resetAt }>` in `lib/auth.ts` with Vercel KV-backed
-rate limiting so the counter persists across cold starts and function instances.
-
-**Why:** The current in-memory rate limiter resets on every cold start. A determined attacker
-can trigger cold starts (by waiting for idle timeout) to reset the counter and get unlimited
-login attempts. KV makes the limit persistent.
-
-**Pros:** Persistent across restarts; works across multiple function instances; minimal code change.
-**Cons:** Requires KV to be available (PR2 dependency).
-
-**Context:** `lib/auth.ts` — the `loginAttempts` Map. In PR2, swap `Map.get/set` for
-`kv.get/set` with the same key structure (`rate:login:{ip}`). TTL can be set directly on the
-KV entry (15 minutes) instead of checking `resetAt` manually.
-
-**Effort:** S (human) → S (CC)
-**Depends on:** Vercel KV migration (PR2).

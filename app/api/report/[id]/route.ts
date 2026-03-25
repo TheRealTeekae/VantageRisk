@@ -9,7 +9,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const engagement = getEngagement(id);
+  const engagement = await getEngagement(id);
 
   if (!engagement) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -17,7 +17,11 @@ export async function GET(
 
   if (!engagement.report) {
     return NextResponse.json(
-      { error: "Report not yet available" },
+      {
+        error: "Report not yet available",
+        status: engagement.status,
+        clientName: engagement.clientName,
+      },
       { status: 404 }
     );
   }

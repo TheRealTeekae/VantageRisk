@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 
 function formatTimeRemaining(ms: number): string {
   const totalSeconds = Math.round(ms / 1000);
@@ -13,10 +14,11 @@ function formatTimeRemaining(ms: number): string {
 }
 
 export default function UploadPage() {
+  const router = useRouter();
   const [clientName, setClientName] = useState("");
+  const [clientEmail, setClientEmail] = useState("");
   const [files, setFiles] = useState<FileList | null>(null);
-  const [status, setStatus] = useState<"idle" | "uploading" | "done" | "error">("idle");
-  const [engagementId, setEngagementId] = useState<string | null>(null);
+  const [status, setStatus] = useState<"idle" | "uploading" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [progress, setProgress] = useState(0);
   const [phase, setPhase] = useState<1 | 2>(1);
@@ -40,7 +42,7 @@ export default function UploadPage() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!clientName || !files || files.length === 0) return;
+    if (!clientName || !clientEmail || !files || files.length === 0) return;
 
     setStatus("uploading");
     setProgress(0);
@@ -56,6 +58,7 @@ export default function UploadPage() {
 
     const formData = new FormData();
     formData.append("clientName", clientName);
+    formData.append("clientEmail", clientEmail);
     for (const file of Array.from(files)) {
       formData.append("files", file);
     }
@@ -89,9 +92,8 @@ export default function UploadPage() {
       try {
         const data = JSON.parse(xhr.responseText);
         if (xhr.status >= 200 && xhr.status < 300) {
-          setProgress(100);
-          setEngagementId(data.engagementId);
-          setStatus("done");
+          // Redirect to status page — client can bookmark it
+          router.push(`/status/${data.engagementId}`);
         } else {
           setErrorMessage(data.error || "Upload failed");
           setStatus("error");
@@ -113,25 +115,6 @@ export default function UploadPage() {
 
     xhr.open("POST", "/api/upload");
     xhr.send(formData);
-  }
-
-  if (status === "done") {
-    return (
-      <main className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-10 max-w-md w-full text-center">
-          <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-          </div>
-          <h1 className="text-xl font-semibold text-slate-900 mb-2">Documents Received</h1>
-          <p className="text-slate-500 text-sm mb-4">
-            Your documents are queued for analysis. You&apos;ll receive your Renewal Intelligence Report within 24 hours.
-          </p>
-          <p className="text-xs text-slate-400 font-mono">Ref: {engagementId}</p>
-        </div>
-      </main>
-    );
   }
 
   return (
@@ -157,6 +140,23 @@ export default function UploadPage() {
               required
               className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent"
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1">
+              Email Address
+            </label>
+            <input
+              type="email"
+              value={clientEmail}
+              onChange={(e) => setClientEmail(e.target.value)}
+              placeholder="you@company.com"
+              required
+              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent"
+            />
+            <p className="text-xs text-slate-400 mt-1">
+              We&apos;ll email you when your report is ready.
+            </p>
           </div>
 
           <div>
@@ -221,7 +221,7 @@ export default function UploadPage() {
           ) : (
             <button
               type="submit"
-              disabled={!clientName || !files?.length}
+              disabled={!clientName || !clientEmail || !files?.length}
               className="w-full bg-slate-900 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-slate-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             >
               Submit Documents

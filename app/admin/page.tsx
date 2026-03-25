@@ -12,6 +12,7 @@ export default function AdminPage() {
   const [engagements, setEngagements] = useState<Engagement[]>([]);
   const [loading, setLoading] = useState(false);
   const [generating, setGenerating] = useState<string | null>(null);
+  const [resetting, setResetting] = useState<string | null>(null);
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -25,7 +26,8 @@ export default function AdminPage() {
       setAuthed(true);
       loadEngagements();
     } else {
-      setAuthError("Invalid password");
+      const data = await res.json();
+      setAuthError(data.error ?? "Invalid password");
     }
   }
 
@@ -54,6 +56,22 @@ export default function AdminPage() {
     setGenerating(null);
   }
 
+  async function triggerReset(engagementId: string) {
+    setResetting(engagementId);
+    const res = await fetch("/api/reset", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ engagementId }),
+    });
+    if (res.ok) {
+      await loadEngagements();
+    } else {
+      const { error } = await res.json();
+      alert(`Reset failed: ${error}`);
+    }
+    setResetting(null);
+  }
+
   async function handleLogout() {
     await fetch("/api/admin/login", { method: "DELETE" });
     setAuthed(false);
@@ -61,7 +79,6 @@ export default function AdminPage() {
   }
 
   useEffect(() => {
-    // Check if already authed via cookie
     fetch("/api/reports")
       .then((r) => {
         if (r.ok) {
@@ -108,12 +125,20 @@ export default function AdminPage() {
             <h1 className="text-2xl font-bold text-slate-900">Engagements</h1>
             <p className="text-slate-500 text-sm mt-0.5">Review uploads and trigger report generation</p>
           </div>
-          <button
-            onClick={handleLogout}
-            className="text-sm text-slate-500 hover:text-slate-700"
-          >
-            Sign out
-          </button>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={loadEngagements}
+              className="text-sm text-slate-500 hover:text-slate-700"
+            >
+              Refresh
+            </button>
+            <button
+              onClick={handleLogout}
+              className="text-sm text-slate-500 hover:text-slate-700"
+            >
+              Sign out
+            </button>
+          </div>
         </div>
 
         {loading && <p className="text-slate-500 text-sm">Loading...</p>}
@@ -136,7 +161,7 @@ export default function AdminPage() {
                   <StatusBadge status={eng.status} />
                 </div>
                 <p className="text-xs text-slate-400 mt-1">
-                  {eng.files.length} file(s) &middot; Submitted {formatDateTime(eng.submittedAt)} &middot; <span className="font-mono">{eng.id}</span>
+                  {eng.files.length} file(s) &middot; {eng.clientEmail ?? "no email"} &middot; Submitted {formatDateTime(eng.submittedAt)} &middot; <span className="font-mono">{eng.id}</span>
                 </p>
               </div>
 
@@ -148,6 +173,15 @@ export default function AdminPage() {
                   >
                     View Report
                   </Link>
+                )}
+                {(eng.status === "extracting" || eng.status === "error") && (
+                  <button
+                    onClick={() => triggerReset(eng.id)}
+                    disabled={resetting === eng.id}
+                    className="text-sm text-slate-500 border border-slate-300 px-3 py-1.5 rounded-lg hover:bg-slate-50 transition-colors disabled:opacity-40"
+                  >
+                    {resetting === eng.id ? "Resetting..." : "Reset"}
+                  </button>
                 )}
                 {(eng.status === "pending" || eng.status === "error") && (
                   <button
@@ -181,4 +215,3 @@ function StatusBadge({ status }: { status: Engagement["status"] }) {
     </span>
   );
 }
-

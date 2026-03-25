@@ -12,12 +12,13 @@ export async function GET(request: NextRequest) {
   const id = searchParams.get("id");
 
   if (id) {
-    const engagement = getEngagement(id);
+    const engagement = await getEngagement(id);
     if (!engagement) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
     return NextResponse.json(engagement);
   }
 
-  return NextResponse.json(listEngagements());
+  const engagements = await listEngagements();
+  return NextResponse.json(engagements);
 }

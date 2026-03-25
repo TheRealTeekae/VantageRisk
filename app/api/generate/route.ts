@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getEngagement, updateEngagement, attachReport } from "@/lib/store";
 import { generateRenewalReport } from "@/lib/anthropic";
 import { requireAdmin } from "@/lib/auth";
+import { sendReportEmail } from "@/lib/email";
 import { RenewalReport } from "@/types";
 
 // POST /api/generate — trigger report generation for an engagement (admin only)
@@ -23,7 +24,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const engagement = getEngagement(engagementId);
+    const engagement = await getEngagement(engagementId);
     if (!engagement) {
       return NextResponse.json({ error: "Engagement not found" }, { status: 404 });
     }
@@ -35,9 +36,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    updateEngagement(engagementId, { status: "analyzing" });
+    await updateEngagement(engagementId, { status: "analyzing" });
 
     if (!engagement.extractedData) {
+      await updateEngagement(engagementId, { status: "error" });
       return NextResponse.json(
         { error: "No extracted document data found. Please re-upload files before generating a report." },
         { status: 422 }
@@ -53,12 +55,15 @@ export async function POST(request: NextRequest) {
       ...(rawReport as Omit<RenewalReport, "id" | "engagementId" | "generatedAt">),
     };
 
-    attachReport(engagementId, report);
+    await attachReport(engagementId, report);
+
+    // Send email notification — non-blocking, errors are swallowed in sendReportEmail
+    await sendReportEmail(engagement.clientEmail, engagementId, engagement.clientName);
 
     return NextResponse.json({ reportId: report.id, engagementId });
   } catch (error) {
     console.error("Report generation error:", error);
-    if (engagementId) updateEngagement(engagementId, { status: "error" });
+    if (engagementId) await updateEngagement(engagementId, { status: "error" });
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Report generation failed" },
       { status: 500 }
