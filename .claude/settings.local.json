@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app@latest . --typescript --tailwind --app --no-git --yes)",
+      "Bash(npx create-next-app@latest vantage-risk-tmp --typescript --tailwind --app --no-git --yes)",
+      "Bash(mv vantage-risk-tmp/* .)",
+      "Bash(mv vantage-risk-tmp/.* .)",
+      "Bash(rmdir vantage-risk-tmp:*)",
+      "Bash(npm pkg:*)",
+      "Bash(npm install:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npm run:*)",
+      "Bash(ls:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(node -e \"require\\(''recharts''\\); console.log\\(''recharts available''\\)\")",
+      "Bash(node -e \"const m = require\\(''html2pdf.js''\\); console.log\\(typeof m, typeof m.default, Object.keys\\(m\\).slice\\(0,5\\)\\)\")"
+    ]
+  }
+}
