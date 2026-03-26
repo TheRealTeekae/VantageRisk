@@ -225,10 +225,10 @@ export default function LandingPage() {
             )}
 
             <div className={styles.heroCtaGroup}>
-              <Link href="/upload" className={styles.heroPrimary}>
+              <Link href="/upload" className={styles.heroPrimaryCta}>
                 Request access
               </Link>
-              <Link href="/report/sample" className={styles.heroGhost}>
+              <Link href="/report/sample" className={styles.heroSecondaryCta}>
                 See a sample report
               </Link>
             </div>
@@ -306,9 +306,6 @@ export default function LandingPage() {
               </li>
             ))}
           </ul>
-          <Link href="/upload" className={styles.jumpNavCta}>
-            Request access
-          </Link>
         </div>
       </nav>
 
