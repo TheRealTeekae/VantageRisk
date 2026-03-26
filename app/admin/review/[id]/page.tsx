@@ -450,7 +450,10 @@ function CoverageGapsEditor({
   return (
     <section className="bg-white rounded-xl border border-slate-200 p-6">
       <div className="flex items-center justify-between mb-4">
-        <SectionTitle number="03" title="Coverage Gaps" />
+        <div className="flex items-center gap-3">
+          <span className="text-xs font-mono text-slate-400">03</span>
+          <h3 className="font-semibold text-slate-900">Coverage Gaps</h3>
+        </div>
         <button
           onClick={addGap}
           className="text-xs text-violet-700 border border-violet-200 px-2 py-1 rounded hover:bg-violet-50 transition-colors"
@@ -574,7 +577,10 @@ function RecommendationsEditor({
   return (
     <section className="bg-white rounded-xl border border-slate-200 p-6">
       <div className="flex items-center justify-between mb-4">
-        <SectionTitle number="05" title="Strategic Recommendations" />
+        <div className="flex items-center gap-3">
+          <span className="text-xs font-mono text-slate-400">05</span>
+          <h3 className="font-semibold text-slate-900">Strategic Recommendations</h3>
+        </div>
         <button
           onClick={addRec}
           className="text-xs text-violet-700 border border-violet-200 px-2 py-1 rounded hover:bg-violet-50 transition-colors"
