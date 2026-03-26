@@ -1,0 +1,560 @@
+/* ═══════════════════════════════════════════════════════════════════
+   VantageRisk — Landing Page Styles
+   No Tailwind. No gradients. No shadows. Border-radius max 2px.
+   Fonts: IBM Plex Sans (body/UI) · Cormorant Garamond (display)
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ─── Design Tokens ──────────────────────────────────────────────── */
+:root {
+  --blue:        #2b47c9;
+  --blue-deep:   #1e35a8;
+  --blue-light:  #3d5ae0;
+  --blue-data1:  #c8d5f5;
+  --blue-data2:  #8fa8e8;
+  --blue-data3:  #5578d4;
+  --blue-dark1:  #152880;
+  --blue-dark2:  #0e1d5a;
+  --white:       #ffffff;
+  --offwhite:    #f7f7f5;
+  --gold:        #e8b84b;
+  --gold-deep:   #c49a2a;
+  --ink:         #0a1218;
+  --ink2:        #1e2e3a;
+  --ink3:        #3a5060;
+  --ink4:        #7a90a0;
+  --rule:        #e8e8e4;
+}
+
+/* ─── Page Shell ─────────────────────────────────────────────────── */
+.page {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-weight: 400;
+  color: var(--ink);
+  background: var(--white);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* ─── Topbar ─────────────────────────────────────────────────────── */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--blue-deep);
+  border-bottom: 2px solid var(--blue-dark1);
+  height: 52px;
+}
+
+.topbarInner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 32px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.wordmark {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.wordmarkVantage {
+  color: #ffffff;
+}
+
+.wordmarkRisk {
+  color: var(--gold);
+}
+
+.topbarNavWrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.topbarNavList {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.topbarNavLink {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.55);
+  padding: 0 14px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s ease;
+}
+
+.topbarNavLink:hover {
+  color: #ffffff;
+}
+
+.topbarNavLinkActive {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.topbarRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.topbarSignIn {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.72);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  padding: 6px 13px;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.topbarSignIn:hover {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.topbarCta {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #ffffff;
+  background: var(--blue-light);
+  border: none;
+  border-radius: 2px;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.topbarCta:hover {
+  background: var(--blue);
+}
+
+/* ─── Hero Section ───────────────────────────────────────────────── */
+.hero {
+  background: var(--blue);
+  border-bottom: 3px solid var(--blue-dark1);
+  padding: 40px 0 0;
+}
+
+.heroInner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: grid;
+  grid-template-columns: 56fr 44fr;
+  gap: 48px;
+  align-items: start;
+}
+
+/* Left column */
+.heroContent {
+  padding-bottom: 44px;
+}
+
+.heroEyebrow {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 18px;
+}
+
+.heroHeadline {
+  font-family: var(--font-cormorant), 'Cormorant Garamond', serif;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.16;
+  letter-spacing: 0;
+  color: #ffffff;
+  margin: 0 0 20px;
+}
+
+.heroSubline {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 1.75;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.52);
+  margin: 0 0 20px;
+  max-width: 460px;
+}
+
+.heroExpandToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.07em;
+  color: rgba(255, 255, 255, 0.38);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.15s ease;
+  margin-bottom: 4px;
+}
+
+.heroExpandToggle:hover {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.heroExpandIcon {
+  font-size: 13px;
+  line-height: 1;
+  font-weight: 300;
+}
+
+.heroExpandBody {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.52);
+  margin: 14px 0 0;
+  max-width: 480px;
+  border-left: 2px solid rgba(255, 255, 255, 0.14);
+  padding-left: 16px;
+}
+
+.heroCtaGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.heroPrimary {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #ffffff;
+  background: var(--blue-dark1);
+  border: none;
+  border-radius: 2px;
+  padding: 9px 20px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.heroPrimary:hover {
+  background: var(--blue-dark2);
+}
+
+.heroGhost {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.65);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 2px;
+  padding: 8px 20px;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.heroGhost:hover {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* ─── Hero Panel (right column — dashboard abstraction) ──────────── */
+.heroPanel {
+  background: var(--blue-dark2);
+  border: 0.5px solid rgba(255, 255, 255, 0.09);
+  border-top: 3px solid var(--gold);
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.heroPanelHeader {
+  background: var(--blue-dark1);
+  padding: 11px 16px;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.07);
+}
+
+.heroPanelBrand {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 3px;
+}
+
+.heroPanelMeta {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.03em;
+  color: rgba(255, 255, 255, 0.3);
+  margin: 0;
+}
+
+.heroPanelTableHead {
+  display: grid;
+  grid-template-columns: 2fr 1.6fr 0.9fr 0.7fr;
+  padding: 7px 16px;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.05);
+}
+
+.heroPanelColHead {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 8px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.18);
+}
+
+.heroPanelColHeadRight {
+  text-align: right;
+}
+
+.heroPanelRow {
+  display: grid;
+  grid-template-columns: 2fr 1.6fr 0.9fr 0.7fr;
+  padding: 9px 16px;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.04);
+  align-items: center;
+}
+
+.heroPanelLineName {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.78);
+  letter-spacing: 0.01em;
+}
+
+.heroPanelVerdict {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+}
+
+.verdictPushback  { color: #6cbf8a; }
+.verdictAccept    { color: #e08080; }
+.verdictRemediate { color: #d4a340; }
+
+.heroPanelPremium {
+  font-family: var(--font-cormorant), 'Cormorant Garamond', serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.65);
+  text-align: right;
+}
+
+.heroPanelChange {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 400;
+  text-align: right;
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.changeNeg { color: #6cbf8a; }
+.changePos { color: #e08080; }
+.changeMuted { color: rgba(255, 255, 255, 0.22); }
+
+/* Mini bar chart */
+.heroPanelChart {
+  padding: 11px 16px 14px;
+  border-top: 0.5px solid rgba(255, 255, 255, 0.04);
+}
+
+.heroPanelChartLabel {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 8px;
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.18);
+  margin: 0 0 9px;
+}
+
+.chartRow {
+  display: grid;
+  grid-template-columns: 28px 1fr 42px;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.chartRowYear {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 8px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.18);
+}
+
+.chartRowTrack {
+  background: rgba(255, 255, 255, 0.04);
+  height: 4px;
+  position: relative;
+}
+
+.chartRowFill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+}
+
+.chartRowValue {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 8px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.22);
+  text-align: right;
+}
+
+/* ─── Section 2 — Jump-to Navigation Strip ───────────────────────── */
+.jumpNav {
+  position: sticky;
+  top: 52px;
+  z-index: 90;
+  background: var(--white);
+  border-bottom: 1px solid var(--rule);
+  height: 36px;
+}
+
+.jumpNavInner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 32px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.jumpNavLabel {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  margin-right: 16px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  border-right: 0.5px solid var(--rule);
+  padding-right: 16px;
+}
+
+.jumpNavLinks {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.jumpNavBtn {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  height: 36px;
+  padding: 0 16px;
+  margin-bottom: -1px;
+  cursor: pointer;
+  transition: color 0.15s ease;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+.jumpNavBtn:hover {
+  color: var(--blue);
+}
+
+.jumpNavBtnActive {
+  color: var(--blue);
+  font-weight: 500;
+  border-bottom-color: var(--blue);
+}
+
+.jumpNavCta {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #ffffff;
+  background: var(--blue);
+  border: none;
+  border-radius: 0;
+  padding: 0 16px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  flex-shrink: 0;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 16px;
+}
+
+.jumpNavCta:hover {
+  background: var(--blue-deep);
+}
