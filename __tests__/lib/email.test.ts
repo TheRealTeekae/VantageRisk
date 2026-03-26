@@ -77,12 +77,18 @@ describe("sendReportEmail", () => {
     expect(call.from).toBe("custom@vantage.com");
   });
 
-  it("does not throw when Resend.send() rejects", async () => {
+  it("returns false and does not throw when Resend.send() rejects", async () => {
     process.env.RESEND_API_KEY = "test-key";
     mockSend.mockRejectedValueOnce(new Error("Resend API down"));
 
     await expect(
       sendReportEmail("client@example.com", "eng-fail", "Acme Corp")
-    ).resolves.toBeUndefined();
+    ).resolves.toBe(false);
+  });
+
+  it("returns true when email sends successfully", async () => {
+    process.env.RESEND_API_KEY = "test-key";
+    const result = await sendReportEmail("client@example.com", "eng-ok", "Acme Corp");
+    expect(result).toBe(true);
   });
 });

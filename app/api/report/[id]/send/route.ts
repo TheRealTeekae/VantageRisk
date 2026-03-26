@@ -32,7 +32,11 @@ export async function POST(
   }
 
   await updateEngagement(id, { status: "complete" });
-  await sendReportEmail(engagement.clientEmail, id, engagement.clientName);
+  const emailSent = await sendReportEmail(engagement.clientEmail, id, engagement.clientName);
 
-  return NextResponse.json({ success: true });
+  return NextResponse.json({
+    success: true,
+    emailSent,
+    ...(emailSent ? {} : { warning: "Report sent but email delivery failed. Follow up with the client directly." }),
+  });
 }

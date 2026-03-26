@@ -17,7 +17,13 @@ export async function GET(
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  if (!engagement.report || engagement.status !== "complete") {
+  // Report is accessible once sent (complete) or after archiving — archive is
+  // an admin org tool and must not revoke a client's existing report link.
+  const reportAccessible =
+    engagement.report &&
+    (engagement.status === "complete" || engagement.status === "archived");
+
+  if (!reportAccessible) {
     return NextResponse.json(
       {
         error: "Report not yet available",
@@ -66,7 +72,11 @@ export async function PATCH(
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  const { report } = await request.json();
+  const body = await request.json();
+  const { report } = body;
+  if (!report || typeof report !== "object" || Array.isArray(report)) {
+    return NextResponse.json({ error: "Invalid report body" }, { status: 400 });
+  }
   await updateEngagement(id, { report });
 
   return NextResponse.json({ success: true });

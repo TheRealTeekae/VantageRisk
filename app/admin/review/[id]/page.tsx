@@ -67,6 +67,10 @@ export default function ReviewPage() {
     });
     const res = await fetch(`/api/report/${id}/send`, { method: "POST" });
     if (res.ok) {
+      const data = await res.json().catch(() => ({}));
+      if (data.warning) {
+        alert(`Report sent. ⚠️ ${data.warning}`);
+      }
       router.push("/admin");
     } else {
       const data = await res.json().catch(() => ({}));

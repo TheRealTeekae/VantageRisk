@@ -1,5 +1,6 @@
 // Shared read-only report rendering used by both the client report page
 // and the admin preview in the review workflow.
+"use client";
 
 import { RenewalReport, YearlyLossBreakdown } from "@/types";
 import { formatDate } from "@/lib/utils";

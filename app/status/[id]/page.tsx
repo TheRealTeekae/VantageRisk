@@ -28,6 +28,7 @@ const STATUS_LABEL: Record<string, string> = {
   extracting: "Extracting data from your documents...",
   analyzing: "Generating your renewal report...",
   review: "Your report is being reviewed and finalized.",
+  archived: "This engagement has been archived.",
 };
 
 export default function StatusPage() {

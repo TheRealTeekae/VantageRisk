@@ -16,18 +16,20 @@ function getResend(): Resend | null {
   return new Resend(key);
 }
 
+// Returns true if the email was sent successfully, false otherwise.
+// Errors are always logged but never thrown — callers decide how to surface failures.
 export async function sendReportEmail(
   clientEmail: string | null | undefined,
   engagementId: string,
   clientName: string
-): Promise<void> {
+): Promise<boolean> {
   if (!clientEmail) {
     console.warn(`[email] No client email for engagement ${engagementId} — skipping`);
-    return;
+    return false;
   }
 
   const resend = getResend();
-  if (!resend) return;
+  if (!resend) return false;
 
   const fromAddress = process.env.RESEND_FROM_ADDRESS ?? "reports@vantagerisk.com";
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://vantagerisk.com";
@@ -51,8 +53,9 @@ export async function sendReportEmail(
         `— Vantage Risk`,
       ].join("\n"),
     });
+    return true;
   } catch (error) {
-    // Email failure should never block report generation — log and continue
     console.error(`[email] Failed to send report email to ${clientEmail}:`, error);
+    return false;
   }
 }
