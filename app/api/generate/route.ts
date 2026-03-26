@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getEngagement, updateEngagement, attachReport } from "@/lib/store";
+import { getEngagement, updateEngagement } from "@/lib/store";
 import { generateRenewalReport } from "@/lib/anthropic";
 import { requireAdmin } from "@/lib/auth";
-import { sendReportEmail } from "@/lib/email";
 import { RenewalReport } from "@/types";
 
 // POST /api/generate — trigger report generation for an engagement (admin only)
@@ -55,10 +54,8 @@ export async function POST(request: NextRequest) {
       ...(rawReport as Omit<RenewalReport, "id" | "engagementId" | "generatedAt">),
     };
 
-    await attachReport(engagementId, report);
-
-    // Send email notification — non-blocking, errors are swallowed in sendReportEmail
-    await sendReportEmail(engagement.clientEmail, engagementId, engagement.clientName);
+    // Set status to "review" — admin must approve and send before client can access
+    await updateEngagement(engagementId, { report, status: "review" });
 
     return NextResponse.json({ reportId: report.id, engagementId });
   } catch (error) {

@@ -27,6 +27,7 @@ const STATUS_LABEL: Record<string, string> = {
   pending: "Queued for processing...",
   extracting: "Extracting data from your documents...",
   analyzing: "Generating your renewal report...",
+  review: "Your report is being reviewed and finalized.",
 };
 
 export default function StatusPage() {

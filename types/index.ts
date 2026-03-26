@@ -4,6 +4,7 @@ export type EngagementStatus =
   | "pending"
   | "extracting"
   | "analyzing"
+  | "review"
   | "complete"
   | "error";
 

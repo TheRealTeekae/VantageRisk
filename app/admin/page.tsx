@@ -166,6 +166,14 @@ export default function AdminPage() {
               </div>
 
               <div className="flex items-center gap-3">
+                {eng.status === "review" && (
+                  <Link
+                    href={`/admin/review/${eng.id}`}
+                    className="bg-violet-700 text-white text-sm px-4 py-1.5 rounded-lg hover:bg-violet-600 transition-colors"
+                  >
+                    Review &amp; Send
+                  </Link>
+                )}
                 {eng.status === "complete" && eng.report && (
                   <Link
                     href={`/report/${eng.id}`}
@@ -206,6 +214,7 @@ function StatusBadge({ status }: { status: Engagement["status"] }) {
     pending: "bg-slate-100 text-slate-600",
     extracting: "bg-yellow-100 text-yellow-700",
     analyzing: "bg-blue-100 text-blue-700",
+    review: "bg-violet-100 text-violet-700",
     complete: "bg-green-100 text-green-700",
     error: "bg-red-100 text-red-700",
   };
