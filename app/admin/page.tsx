@@ -336,9 +336,18 @@ function StatusBadge({ status }: { status: Engagement["status"] }) {
     archived: "bg-slate-100 text-slate-400",
     error: "bg-red-100 text-red-700",
   };
+  const labels: Record<Engagement["status"], string> = {
+    pending: "Pending",
+    extracting: "Extracting",
+    analyzing: "Analyzing",
+    review: "In Review",
+    complete: "Complete",
+    archived: "Archived",
+    error: "Error",
+  };
   return (
     <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${styles[status]}`}>
-      {status}
+      {labels[status]}
     </span>
   );
 }
