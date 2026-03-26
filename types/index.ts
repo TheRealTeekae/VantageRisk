@@ -6,6 +6,7 @@ export type EngagementStatus =
   | "analyzing"
   | "review"
   | "complete"
+  | "archived"
   | "error";
 
 export interface Engagement {

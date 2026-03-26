@@ -4,12 +4,16 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { Engagement, RenewalReport, CoverageGap, Recommendation } from "@/types";
+import { ReportView } from "@/components/ReportView";
+
+type ViewMode = "edit" | "preview";
 
 export default function ReviewPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const [engagement, setEngagement] = useState<Engagement | null>(null);
   const [report, setReport] = useState<RenewalReport | null>(null);
+  const [mode, setMode] = useState<ViewMode>("edit");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [sending, setSending] = useState(false);
@@ -103,10 +107,34 @@ export default function ReviewPage() {
             </Link>
             <h1 className="text-2xl font-bold text-slate-900">Review Report</h1>
             <p className="text-slate-500 text-sm mt-0.5">
-              {engagement.clientName} &middot; {engagement.files.length} file(s) &middot; {engagement.clientEmail}
+              {engagement.clientName} &middot; {engagement.files.length} file(s) &middot;{" "}
+              {engagement.clientEmail}
             </p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex items-center gap-3">
+            {/* Mode toggle */}
+            <div className="flex gap-1 bg-slate-100 rounded-lg p-1">
+              <button
+                onClick={() => setMode("edit")}
+                className={`text-sm px-3 py-1 rounded-md font-medium transition-colors ${
+                  mode === "edit"
+                    ? "bg-white text-slate-900 shadow-sm"
+                    : "text-slate-500 hover:text-slate-700"
+                }`}
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => setMode("preview")}
+                className={`text-sm px-3 py-1 rounded-md font-medium transition-colors ${
+                  mode === "preview"
+                    ? "bg-white text-slate-900 shadow-sm"
+                    : "text-slate-500 hover:text-slate-700"
+                }`}
+              >
+                Preview
+              </button>
+            </div>
             <button
               onClick={handleSave}
               disabled={saving || sending}
@@ -124,31 +152,44 @@ export default function ReviewPage() {
           </div>
         </div>
 
-        <div className="space-y-6">
-          <ProgramSummaryEditor report={report} setReport={setReport} />
-          <LossTrendEditor report={report} setReport={setReport} />
-          <CoverageGapsEditor report={report} setReport={setReport} />
-          <NarrativeEditor report={report} setReport={setReport} />
-          <RecommendationsEditor report={report} setReport={setReport} />
-        </div>
+        {mode === "preview" ? (
+          <div>
+            <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+              <p className="text-xs text-amber-700 font-medium">
+                Preview mode — this is exactly what the client will see. Switch to Edit to make changes.
+              </p>
+            </div>
+            <ReportView report={report} clientName={engagement.clientName} />
+          </div>
+        ) : (
+          <>
+            <div className="space-y-6">
+              <ProgramSummaryEditor report={report} setReport={setReport} />
+              <LossTrendEditor report={report} setReport={setReport} />
+              <CoverageGapsEditor report={report} setReport={setReport} />
+              <NarrativeEditor report={report} setReport={setReport} />
+              <RecommendationsEditor report={report} setReport={setReport} />
+            </div>
 
-        {/* Bottom action bar */}
-        <div className="flex justify-end gap-3 mt-8 pt-6 border-t border-slate-200">
-          <button
-            onClick={handleSave}
-            disabled={saving || sending}
-            className="border border-slate-300 text-slate-700 text-sm px-5 py-2 rounded-lg hover:bg-slate-50 transition-colors disabled:opacity-40"
-          >
-            {saving ? "Saving..." : "Save Changes"}
-          </button>
-          <button
-            onClick={handleSend}
-            disabled={saving || sending}
-            className="bg-violet-700 text-white text-sm px-5 py-2 rounded-lg hover:bg-violet-600 transition-colors disabled:opacity-40"
-          >
-            {sending ? "Sending..." : "Send to Client →"}
-          </button>
-        </div>
+            {/* Bottom action bar */}
+            <div className="flex justify-end gap-3 mt-8 pt-6 border-t border-slate-200">
+              <button
+                onClick={handleSave}
+                disabled={saving || sending}
+                className="border border-slate-300 text-slate-700 text-sm px-5 py-2 rounded-lg hover:bg-slate-50 transition-colors disabled:opacity-40"
+              >
+                {saving ? "Saving..." : "Save Changes"}
+              </button>
+              <button
+                onClick={handleSend}
+                disabled={saving || sending}
+                className="bg-violet-700 text-white text-sm px-5 py-2 rounded-lg hover:bg-violet-600 transition-colors disabled:opacity-40"
+              >
+                {sending ? "Sending..." : "Send to Client →"}
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </main>
   );
@@ -206,16 +247,32 @@ function ProgramSummaryEditor({
       <SectionTitle number="01" title="Program Summary" />
       <div className="grid grid-cols-2 gap-4 mb-6">
         <Field label="Named Insured">
-          <input className={inputCls} value={ps.namedInsured ?? ""} onChange={(e) => updateField("namedInsured", e.target.value)} />
+          <input
+            className={inputCls}
+            value={ps.namedInsured ?? ""}
+            onChange={(e) => updateField("namedInsured", e.target.value)}
+          />
         </Field>
         <Field label="Report Date">
-          <input className={inputCls} value={ps.reportDate ?? ""} onChange={(e) => updateField("reportDate", e.target.value)} />
+          <input
+            className={inputCls}
+            value={ps.reportDate ?? ""}
+            onChange={(e) => updateField("reportDate", e.target.value)}
+          />
         </Field>
         <Field label="Total Program Premium">
-          <input className={inputCls} value={ps.totalProgramPremium ?? ""} onChange={(e) => updateField("totalProgramPremium", e.target.value)} />
+          <input
+            className={inputCls}
+            value={ps.totalProgramPremium ?? ""}
+            onChange={(e) => updateField("totalProgramPremium", e.target.value)}
+          />
         </Field>
         <Field label="Overall Assessment">
-          <input className={inputCls} value={ps.overallAssessment ?? ""} onChange={(e) => updateField("overallAssessment", e.target.value)} />
+          <input
+            className={inputCls}
+            value={ps.overallAssessment ?? ""}
+            onChange={(e) => updateField("overallAssessment", e.target.value)}
+          />
         </Field>
       </div>
 
@@ -237,7 +294,16 @@ function ProgramSummaryEditor({
               <tbody>
                 {ps.linesOfBusiness.map((line, i) => (
                   <tr key={i} className="border-b border-slate-50">
-                    {(["line", "carrier", "limits", "deductibleOrSIR", "premium", "expirationDate"] as const).map((field) => (
+                    {(
+                      [
+                        "line",
+                        "carrier",
+                        "limits",
+                        "deductibleOrSIR",
+                        "premium",
+                        "expirationDate",
+                      ] as const
+                    ).map((field) => (
                       <td key={field} className="py-1 pr-2">
                         <input
                           className="w-full border border-slate-100 rounded px-2 py-1 text-xs text-slate-700 focus:outline-none focus:border-slate-300"
@@ -275,10 +341,18 @@ function LossTrendEditor({
       <SectionTitle number="02" title="Loss Trend Analysis" />
       <div className="grid grid-cols-2 gap-4 mb-4">
         <Field label="Total Incurred (All Years)">
-          <input className={inputCls} value={lt.totalIncurredAllYears ?? ""} onChange={(e) => updateField("totalIncurredAllYears", e.target.value)} />
+          <input
+            className={inputCls}
+            value={lt.totalIncurredAllYears ?? ""}
+            onChange={(e) => updateField("totalIncurredAllYears", e.target.value)}
+          />
         </Field>
         <Field label="Avg Annual Incurred">
-          <input className={inputCls} value={lt.averageAnnualIncurred ?? ""} onChange={(e) => updateField("averageAnnualIncurred", e.target.value)} />
+          <input
+            className={inputCls}
+            value={lt.averageAnnualIncurred ?? ""}
+            onChange={(e) => updateField("averageAnnualIncurred", e.target.value)}
+          />
         </Field>
         <Field label="Frequency Trend">
           <select
@@ -364,7 +438,9 @@ function CoverageGapsEditor({
   }
 
   function removeGap(i: number) {
-    setReport((r) => r && { ...r, coverageGaps: (r.coverageGaps ?? []).filter((_, idx) => idx !== i) });
+    setReport(
+      (r) => r && { ...r, coverageGaps: (r.coverageGaps ?? []).filter((_, idx) => idx !== i) }
+    );
   }
 
   return (
@@ -394,20 +470,31 @@ function CoverageGapsEditor({
                 </select>
               </Field>
               <Field label="Line">
-                <input className={inputCls} value={gap.line} onChange={(e) => updateGap(i, "line", e.target.value)} />
+                <input
+                  className={inputCls}
+                  value={gap.line}
+                  onChange={(e) => updateGap(i, "line", e.target.value)}
+                />
               </Field>
             </div>
             <Field label="Description">
-              <textarea className={textareaCls} rows={2} value={gap.description} onChange={(e) => updateGap(i, "description", e.target.value)} />
+              <textarea
+                className={textareaCls}
+                rows={2}
+                value={gap.description}
+                onChange={(e) => updateGap(i, "description", e.target.value)}
+              />
             </Field>
             <Field label="Recommendation">
-              <textarea className={textareaCls} rows={2} value={gap.recommendation} onChange={(e) => updateGap(i, "recommendation", e.target.value)} />
+              <textarea
+                className={textareaCls}
+                rows={2}
+                value={gap.recommendation}
+                onChange={(e) => updateGap(i, "recommendation", e.target.value)}
+              />
             </Field>
             <div className="flex justify-end">
-              <button
-                onClick={() => removeGap(i)}
-                className="text-xs text-red-500 hover:text-red-700"
-              >
+              <button onClick={() => removeGap(i)} className="text-xs text-red-500 hover:text-red-700">
                 ✕ Remove
               </button>
             </div>
@@ -453,8 +540,9 @@ function RecommendationsEditor({
       if (!r) return r;
       const recs = [...(r.recommendations ?? [])];
       recs[i] = { ...recs[i], [field]: value } as Recommendation;
-      // Re-assign priorities by order
-      recs.forEach((rec, idx) => { rec.priority = idx + 1; });
+      recs.forEach((rec, idx) => {
+        rec.priority = idx + 1;
+      });
       return { ...r, recommendations: recs };
     });
   }
@@ -472,7 +560,9 @@ function RecommendationsEditor({
     setReport((r) => {
       if (!r) return r;
       const recs = (r.recommendations ?? []).filter((_, idx) => idx !== i);
-      recs.forEach((rec, idx) => { rec.priority = idx + 1; });
+      recs.forEach((rec, idx) => {
+        rec.priority = idx + 1;
+      });
       return { ...r, recommendations: recs };
     });
   }
@@ -496,14 +586,28 @@ function RecommendationsEditor({
                 {rec.priority}
               </div>
               <Field label="Title">
-                <input className={inputCls} value={rec.title} onChange={(e) => updateRec(i, "title", e.target.value)} />
+                <input
+                  className={inputCls}
+                  value={rec.title}
+                  onChange={(e) => updateRec(i, "title", e.target.value)}
+                />
               </Field>
             </div>
             <Field label="Rationale">
-              <textarea className={textareaCls} rows={2} value={rec.rationale} onChange={(e) => updateRec(i, "rationale", e.target.value)} />
+              <textarea
+                className={textareaCls}
+                rows={2}
+                value={rec.rationale}
+                onChange={(e) => updateRec(i, "rationale", e.target.value)}
+              />
             </Field>
             <Field label="Action">
-              <textarea className={textareaCls} rows={2} value={rec.action} onChange={(e) => updateRec(i, "action", e.target.value)} />
+              <textarea
+                className={textareaCls}
+                rows={2}
+                value={rec.action}
+                onChange={(e) => updateRec(i, "action", e.target.value)}
+              />
             </Field>
             <div className="flex justify-end">
               <button

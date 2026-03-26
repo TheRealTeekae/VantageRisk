@@ -92,3 +92,12 @@ export async function attachReport(
 ): Promise<Engagement | undefined> {
   return updateEngagement(engagementId, { report, status: "complete" });
 }
+
+export async function deleteEngagement(id: string): Promise<boolean> {
+  const redis = getRedis();
+  const [deleted] = await Promise.all([
+    redis.del(ENGAGEMENT_KEY(id)),
+    redis.zrem(SORTED_SET_KEY, id),
+  ]);
+  return deleted === 1;
+}

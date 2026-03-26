@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getEngagement, updateEngagement } from "@/lib/store";
+import { getEngagement, updateEngagement, deleteEngagement } from "@/lib/store";
 import { requireAdmin } from "@/lib/auth";
 
 // GET /api/report/[id] — unauthenticated report access
@@ -29,6 +29,25 @@ export async function GET(
   }
 
   return NextResponse.json(engagement);
+}
+
+// DELETE /api/report/[id] — permanently delete an engagement and its report
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  if (!(await requireAdmin(request))) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const { id } = await params;
+  const deleted = await deleteEngagement(id);
+
+  if (!deleted) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
+  return NextResponse.json({ success: true });
 }
 
 // PATCH /api/report/[id] — admin saves edited report content

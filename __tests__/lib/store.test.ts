@@ -38,6 +38,17 @@ vi.mock("@upstash/redis", () => {
         );
         return sorted.map((e) => e.member);
       },
+      zrem: async (key: string, member: string) => {
+        const set = _sortedSets.get(key) ?? [];
+        const before = set.length;
+        _sortedSets.set(key, set.filter((e) => e.member !== member));
+        return before - (_sortedSets.get(key)?.length ?? 0);
+      },
+      del: async (key: string) => {
+        const existed = _store.has(key) ? 1 : 0;
+        _store.delete(key);
+        return existed;
+      },
       mget: async (...keys: string[]) =>
         keys.map((key) => _store.get(key) ?? null),
     };
@@ -52,6 +63,7 @@ import {
   listEngagements,
   updateEngagement,
   attachReport,
+  deleteEngagement,
 } from "@/lib/store";
 import type { RenewalReport } from "@/types";
 
@@ -173,5 +185,27 @@ describe("attachReport", () => {
   it("returns undefined for unknown engagement", async () => {
     const result = await attachReport("bad-id", {} as RenewalReport);
     expect(result).toBeUndefined();
+  });
+});
+
+describe("deleteEngagement", () => {
+  it("removes the engagement from the store", async () => {
+    const eng = await createEngagement("To Delete");
+    const deleted = await deleteEngagement(eng.id);
+    expect(deleted).toBe(true);
+    const fetched = await getEngagement(eng.id);
+    expect(fetched).toBeUndefined();
+  });
+
+  it("removes the engagement from the sorted set", async () => {
+    const eng = await createEngagement("To Delete");
+    await deleteEngagement(eng.id);
+    const list = await listEngagements();
+    expect(list.find((e) => e.id === eng.id)).toBeUndefined();
+  });
+
+  it("returns false for unknown id", async () => {
+    const result = await deleteEngagement("nonexistent-id");
+    expect(result).toBe(false);
   });
 });
