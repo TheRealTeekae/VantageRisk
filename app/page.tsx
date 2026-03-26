@@ -77,6 +77,63 @@ const CHART_BARS: {
   { year: "2024", value: "$124K", pct: 79,  color: "var(--blue-data2)" },
 ];
 
+const PROBLEM_ITEMS = [
+  {
+    number: "01",
+    headline: "One-sided intelligence at renewal",
+    body: "Your broker's renewal submission represents their interests, not yours. Without an independent analysis of your loss history and market benchmarks, you arrive at the table negotiating blind.",
+  },
+  {
+    number: "02",
+    headline: "Coverage drift goes undetected",
+    body: "Policy documents accumulate subtle changes year over year — sublimits lowered, exclusions added, conditions tightened. Most risk managers discover gaps only after a claim is denied.",
+  },
+  {
+    number: "03",
+    headline: "Market benchmarks are opaque",
+    body: "Carriers price programs against proprietary loss indices and competitive intelligence you don't have access to. VantageRisk bridges this gap with authority-weighted market data sourced from primary filings.",
+  },
+  {
+    number: "04",
+    headline: "Renewal prep is reactive, not strategic",
+    body: "With no structured intelligence layer, renewal becomes a sprint of reactive decisions. VantageRisk delivers a verdict-grade report 30 days before renewal so you negotiate from a position of knowledge.",
+  },
+];
+
+const FILE_ROWS = [
+  { type: "PDF", name: "Loss Run — GL 2020–2024" },
+  { type: "PDF", name: "Property Schedule 2024" },
+  { type: "XLSX", name: "Exposure Summary.xlsx" },
+  { type: "PDF", name: "Prior Policy — Commercial Auto" },
+];
+
+const ANALYSIS_ROWS = [
+  { label: "Loss trend extraction", pct: 100, status: "Complete" },
+  { label: "Coverage gap detection", pct: 100, status: "Complete" },
+  { label: "Market benchmarking", pct: 78,  status: "Running…" },
+  { label: "Verdict generation",    pct: 0,   status: "Queued" },
+];
+
+const CARD3_ROWS: {
+  line: string;
+  tag: string;
+  tagKey: "verdictTagPush" | "verdictTagAccept" | "verdictTagRemediate";
+  change: string;
+}[] = [
+  { line: "General Liability", tag: "Push back",  tagKey: "verdictTagPush",      change: "−4.2%" },
+  { line: "Property",          tag: "Accept",     tagKey: "verdictTagAccept",     change: "+12.8%" },
+  { line: "Workers Comp",      tag: "Remediate",  tagKey: "verdictTagRemediate",  change: "—" },
+  { line: "Commercial Auto",   tag: "Push back",  tagKey: "verdictTagPush",       change: "−1.5%" },
+];
+
+const SOURCE_TIERS = [
+  { label: "ISO Loss Cost Filings",           pct: 92, color: "var(--blue-data1)", weight: "92%" },
+  { label: "NCCI Rate & Loss Reports",        pct: 87, color: "var(--blue-data2)", weight: "87%" },
+  { label: "Carrier Schedule Rating Manuals", pct: 74, color: "var(--blue-data3)", weight: "74%" },
+  { label: "IRMI / Advisen Benchmarks",       pct: 61, color: "var(--blue-data2)", weight: "61%" },
+  { label: "Proprietary Loss Index",          pct: 48, color: "var(--blue-data3)", weight: "48%" },
+];
+
 // ─── Page ─────────────────────────────────────────────────────────
 
 export default function LandingPage() {
@@ -158,7 +215,7 @@ export default function LandingPage() {
             {expanded && (
               <p className={styles.heroExpandBody}>
                 Most risk managers arrive at renewal with a single perspective:
-                their broker's. VantageRisk provides a second opinion built from
+                their broker&rsquo;s. VantageRisk provides a second opinion built from
                 your own loss history, authority-weighted market data, and
                 coverage drift detection across five years of policy documents.
                 The result is a 12-section intelligence report with specific
@@ -254,6 +311,168 @@ export default function LandingPage() {
           </Link>
         </div>
       </nav>
+
+      {/* ── Section 3 — The Problem ─────────────────────────────── */}
+      <section id="assessment" className={styles.problemSection}>
+        <div className={styles.sectionStrip}>
+          <div className={styles.sectionStripInner}>
+            <span className={styles.sectionStripLabel}>The Problem</span>
+            <span className={styles.sectionStripMeta}>Section 02 of 06</span>
+          </div>
+        </div>
+        <div className={styles.problemGrid}>
+          {PROBLEM_ITEMS.map((item) => (
+            <div key={item.number} className={styles.problemItem}>
+              <p className={styles.problemNumber}>{item.number}</p>
+              <h2 className={styles.problemHeadline}>{item.headline}</h2>
+              <p className={styles.problemBody}>{item.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Section 4 — How VantageRisk Works ──────────────────── */}
+      <section id="how-it-works" className={styles.howSection}>
+        <div className={styles.sectionStrip}>
+          <div className={styles.sectionStripInner}>
+            <span className={styles.sectionStripLabel}>How It Works</span>
+            <span className={styles.sectionStripMeta}>Section 03 of 06</span>
+          </div>
+        </div>
+        <div className={styles.howGrid}>
+
+          {/* Card 1 — Upload */}
+          <div className={styles.card}>
+            <div className={styles.cardVizArea} aria-hidden="true">
+              <div className={styles.fileList}>
+                {FILE_ROWS.map((f) => (
+                  <div key={f.name} className={styles.fileRow}>
+                    <span className={styles.fileType}>{f.type}</span>
+                    <span className={styles.fileName}>{f.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className={styles.cardBody}>
+              <p className={styles.cardStep}>Step 01</p>
+              <h3 className={styles.cardTitle}>Upload your documents</h3>
+              <p className={styles.cardText}>
+                Securely submit your loss runs, policy schedules, and exposure
+                summaries. We accept PDF, Excel, and CSV — no formatting required.
+              </p>
+            </div>
+          </div>
+
+          {/* Card 2 — Analyze */}
+          <div className={styles.card}>
+            <div className={styles.cardVizArea} aria-hidden="true">
+              <div className={styles.analysisList}>
+                {ANALYSIS_ROWS.map((row) => (
+                  <div key={row.label} className={styles.analysisRow}>
+                    <span className={styles.analysisLabel}>{row.label}</span>
+                    <div className={styles.analysisTrack}>
+                      <div
+                        className={styles.analysisFill}
+                        style={{ width: `${row.pct}%` }}
+                      />
+                    </div>
+                    <span className={styles.analysisStatus}>{row.status}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className={styles.cardBody}>
+              <p className={styles.cardStep}>Step 02</p>
+              <h3 className={styles.cardTitle}>We analyze everything</h3>
+              <p className={styles.cardText}>
+                Our pipeline extracts loss trends, detects coverage drift across
+                policy years, and benchmarks your program against current market
+                rates and authority-weighted loss indices.
+              </p>
+            </div>
+          </div>
+
+          {/* Card 3 — Receive */}
+          <div className={styles.card}>
+            <div className={styles.cardVizArea} aria-hidden="true">
+              <div className={styles.verdictList}>
+                {CARD3_ROWS.map((row) => (
+                  <div key={row.line} className={styles.verdictRow}>
+                    <span className={styles.verdictLine}>{row.line}</span>
+                    <span className={`${styles.verdictTag} ${styles[row.tagKey]}`}>
+                      {row.tag}
+                    </span>
+                    <span className={styles.verdictChange}>{row.change}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className={styles.cardBody}>
+              <p className={styles.cardStep}>Step 03</p>
+              <h3 className={styles.cardTitle}>Receive your report</h3>
+              <p className={styles.cardText}>
+                A 12-section renewal intelligence report lands in your inbox —
+                with line-by-line verdicts, coverage gap findings, and specific
+                negotiating recommendations for each carrier.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ── Section 5 — Market Intelligence Layer ──────────────── */}
+      <section id="market-intelligence" className={styles.marketSection}>
+        <div className={styles.sectionStripDark}>
+          <div className={styles.sectionStripInner}>
+            <span className={`${styles.sectionStripLabel} ${styles.sectionStripLabelDark}`}>
+              Market Intelligence
+            </span>
+            <span className={`${styles.sectionStripMeta} ${styles.sectionStripMetaDark}`}>
+              Section 04 of 06
+            </span>
+          </div>
+        </div>
+        <div className={styles.marketInner}>
+
+          <div className={styles.marketContent}>
+            <p className={styles.marketEyebrow}>Authority-weighted data layer</p>
+            <h2 className={styles.marketHeadline}>
+              Not opinion.<br />
+              Primary-source market data.
+            </h2>
+            <p className={styles.marketBody}>
+              VantageRisk benchmarks your program against a curated stack of
+              regulatory filings, rate bureau publications, and carrier rating
+              manuals — weighted by source authority and recency.
+            </p>
+            <p className={styles.marketBody}>
+              When we tell you a rate increase is unjustified, we can point to
+              the ISO loss cost filing that says so. That&rsquo;s the difference
+              between an opinion and a negotiating position.
+            </p>
+          </div>
+
+          <div>
+            <p className={styles.sourceTierHeading}>Source authority weights</p>
+            <div className={styles.sourceTiers}>
+              {SOURCE_TIERS.map((tier) => (
+                <div key={tier.label} className={styles.sourceTierRow}>
+                  <span className={styles.sourceTierLabel}>{tier.label}</span>
+                  <div className={styles.sourceTierTrack}>
+                    <div
+                      className={styles.sourceTierFill}
+                      style={{ width: `${tier.pct}%`, background: tier.color }}
+                    />
+                  </div>
+                  <span className={styles.sourceTierWeight}>{tier.weight}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </section>
 
     </div>
   );
