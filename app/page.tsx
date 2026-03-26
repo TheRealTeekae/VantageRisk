@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import styles from "./landing.module.css";
 
@@ -77,26 +77,72 @@ const CHART_BARS: {
   { year: "2024", value: "$124K", pct: 79,  color: "var(--blue-data2)" },
 ];
 
-const PROBLEM_ITEMS = [
+const PROBLEM_ITEMS: {
+  number: string;
+  headline: string;
+  body: string;
+  icon: React.ReactNode;
+}[] = [
   {
     number: "01",
     headline: "One-sided intelligence at renewal",
     body: "Your broker's renewal submission represents their interests, not yours. Without an independent analysis of your loss history and market benchmarks, you arrive at the table negotiating blind.",
+    icon: (
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        {/* Asymmetric scale — left pan heavy, right pan high */}
+        <line x1="20" y1="7" x2="20" y2="33" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+        <line x1="13" y1="33" x2="27" y2="33" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+        <line x1="7" y1="15" x2="33" y2="13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+        <path d="M7 15 L9 24 Q13 28 17 24 L19 15" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinejoin="round"/>
+        <path d="M21 13 L23 18 Q27 22 31 18 L33 13" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinejoin="round"/>
+      </svg>
+    ),
   },
   {
     number: "02",
     headline: "Coverage drift goes undetected",
     body: "Policy documents accumulate subtle changes year over year — sublimits lowered, exclusions added, conditions tightened. Most risk managers discover gaps only after a claim is denied.",
+    icon: (
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        {/* Three layers drifting right with fading opacity */}
+        <rect x="5" y="8" width="22" height="8" stroke="currentColor" strokeWidth="1.5"/>
+        <rect x="9" y="18" width="22" height="8" stroke="currentColor" strokeWidth="1.5" opacity="0.55"/>
+        <rect x="13" y="28" width="22" height="7" stroke="currentColor" strokeWidth="1.5" opacity="0.25"/>
+      </svg>
+    ),
   },
   {
     number: "03",
     headline: "Market benchmarks are opaque",
     body: "Carriers price programs against proprietary loss indices and competitive intelligence you don't have access to. VantageRisk bridges this gap with authority-weighted market data sourced from primary filings.",
+    icon: (
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        {/* Bar chart — middle bar hidden, X above it */}
+        <line x1="6" y1="32" x2="34" y2="32" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+        <rect x="8" y="20" width="7" height="12" stroke="currentColor" strokeWidth="1.5"/>
+        <rect x="17" y="14" width="7" height="18" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 2"/>
+        <rect x="26" y="23" width="7" height="9" stroke="currentColor" strokeWidth="1.5"/>
+        <line x1="19" y1="6" x2="22" y2="11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+        <line x1="22" y1="6" x2="19" y2="11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      </svg>
+    ),
   },
   {
     number: "04",
     headline: "Renewal prep is reactive, not strategic",
-    body: "With no structured intelligence layer, renewal becomes a sprint of reactive decisions. VantageRisk delivers a verdict-grade report 30 days before renewal so you negotiate from a position of knowledge.",
+    body: "With no structured intelligence layer, renewal becomes a sprint of reactive decisions. VantageRisk delivers a verdict-grade report well before renewal so you negotiate from a position of knowledge.",
+    icon: (
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        {/* Calendar with clock in corner */}
+        <rect x="4" y="6" width="24" height="24" stroke="currentColor" strokeWidth="1.5"/>
+        <line x1="4" y1="14" x2="28" y2="14" stroke="currentColor" strokeWidth="1.5"/>
+        <line x1="10" y1="2" x2="10" y2="10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+        <line x1="22" y1="2" x2="22" y2="10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+        <circle cx="30" cy="30" r="9" fill="white" stroke="currentColor" strokeWidth="1.5"/>
+        <line x1="30" y1="24" x2="30" y2="30" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+        <line x1="30" y1="30" x2="35" y2="33" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      </svg>
+    ),
   },
 ];
 
@@ -361,10 +407,14 @@ export default function LandingPage() {
         </div>
         <div className={styles.problemGrid}>
           {PROBLEM_ITEMS.map((item) => (
-            <div key={item.number} className={styles.problemItem}>
-              <p className={styles.problemNumber}>{item.number}</p>
-              <h2 className={styles.problemHeadline}>{item.headline}</h2>
-              <p className={styles.problemBody}>{item.body}</p>
+            <div key={item.number} className={styles.problemCard}>
+              <div className={styles.problemCardIcon}>{item.icon}</div>
+              <p className={styles.problemCardNumber}>{item.number}</p>
+              <h2 className={styles.problemCardHeadline}>{item.headline}</h2>
+              <p className={styles.problemCardBody}>{item.body}</p>
+              <a href="#how-it-works" className={styles.problemCardLink}>
+                How we solve this&nbsp;›
+              </a>
             </div>
           ))}
         </div>
