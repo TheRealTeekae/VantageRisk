@@ -138,7 +138,7 @@ export default function UploadPage() {
               onChange={(e) => setClientName(e.target.value)}
               placeholder="Acme Corporation"
               required
-              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent"
+              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent"
             />
           </div>
 
@@ -152,7 +152,7 @@ export default function UploadPage() {
               onChange={(e) => setClientEmail(e.target.value)}
               placeholder="you@company.com"
               required
-              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent"
+              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent"
             />
             <p className="text-xs text-slate-400 mt-1">
               We&apos;ll email you when your report is ready.
