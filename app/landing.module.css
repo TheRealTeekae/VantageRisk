@@ -1006,6 +1006,60 @@
    Section 6 — Stats / Proof Bar
    ═══════════════════════════════════════════════════════════════════ */
 
+/* ─── Centered section header (shared pattern) ───────────────────── */
+
+.sectionHeader {
+  padding: 56px 64px 40px;
+}
+
+.sectionHeaderInner {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.sectionHeaderEyebrow {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 16px;
+}
+
+.sectionHeaderHeadline {
+  font-family: var(--font-libre-baskerville), 'Libre Baskerville', serif;
+  font-size: clamp(26px, 2.8vw, 38px);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0 0 22px;
+}
+
+.sectionHeaderRule {
+  width: 36px;
+  height: 2px;
+  background: var(--gold);
+  margin: 0 auto 22px;
+  border: none;
+}
+
+.sectionHeaderSubline {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.72;
+  letter-spacing: 0.02em;
+  color: var(--ink3);
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Section 6 — Stats / Proof Bar
+   ═══════════════════════════════════════════════════════════════════ */
+
 .statsSection {
   background: var(--offwhite);
   border-bottom: 0.5px solid var(--rule);
@@ -1014,7 +1068,7 @@
 .statsInner {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 52px 64px;
+  padding: 0 64px 52px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
 }

@@ -377,6 +377,17 @@ export default function LandingPage() {
             <span className={styles.sectionStripLabel}>How It Works</span>
           </div>
         </div>
+        <div className={styles.sectionHeader}>
+          <div className={styles.sectionHeaderInner}>
+            <p className={styles.sectionHeaderEyebrow}>The process</p>
+            <h2 className={styles.sectionHeaderHeadline}>From documents to decisions in days.</h2>
+            <hr className={styles.sectionHeaderRule} />
+            <p className={styles.sectionHeaderSubline}>
+              Submit your program materials and receive a 12-section renewal intelligence
+              report — before your broker has drafted a submission.
+            </p>
+          </div>
+        </div>
         <div className={styles.howGrid}>
 
           {/* Card 1 — Upload */}
@@ -466,6 +477,17 @@ export default function LandingPage() {
             <span className={styles.sectionStripLabel}>By the numbers</span>
           </div>
         </div>
+        <div className={styles.sectionHeader}>
+          <div className={styles.sectionHeaderInner}>
+            <p className={styles.sectionHeaderEyebrow}>Track record</p>
+            <h2 className={styles.sectionHeaderHeadline}>The numbers behind the intelligence.</h2>
+            <hr className={styles.sectionHeaderRule} />
+            <p className={styles.sectionHeaderSubline}>
+              VantageRisk has benchmarked mid-market programs across every major P&amp;C line.
+              Here&rsquo;s what the data consistently shows.
+            </p>
+          </div>
+        </div>
         <div className={styles.statsInner}>
           {STATS.map((stat) => (
             <div key={stat.number} className={styles.statItem}>
@@ -481,6 +503,17 @@ export default function LandingPage() {
         <div className={styles.sectionStrip}>
           <div className={styles.sectionStripInner}>
             <span className={styles.sectionStripLabel}>Client outcomes</span>
+          </div>
+        </div>
+        <div className={styles.sectionHeader}>
+          <div className={styles.sectionHeaderInner}>
+            <p className={styles.sectionHeaderEyebrow}>Client outcomes</p>
+            <h2 className={styles.sectionHeaderHeadline}>Risk managers who came prepared.</h2>
+            <hr className={styles.sectionHeaderRule} />
+            <p className={styles.sectionHeaderSubline}>
+              VantageRisk clients don&rsquo;t just renew — they negotiate. Here&rsquo;s what
+              they found when they arrived at the table with their own data.
+            </p>
           </div>
         </div>
         <div className={styles.testimonialsGrid}>
