@@ -357,7 +357,6 @@ export default function LandingPage() {
         <div className={styles.sectionStrip}>
           <div className={styles.sectionStripInner}>
             <span className={styles.sectionStripLabel}>The Problem</span>
-            <span className={styles.sectionStripMeta}>Section 02 of 06</span>
           </div>
         </div>
         <div className={styles.problemGrid}>
@@ -376,7 +375,6 @@ export default function LandingPage() {
         <div className={styles.sectionStrip}>
           <div className={styles.sectionStripInner}>
             <span className={styles.sectionStripLabel}>How It Works</span>
-            <span className={styles.sectionStripMeta}>Section 03 of 06</span>
           </div>
         </div>
         <div className={styles.howGrid}>
@@ -466,7 +464,6 @@ export default function LandingPage() {
         <div className={styles.sectionStrip}>
           <div className={styles.sectionStripInner}>
             <span className={styles.sectionStripLabel}>By the numbers</span>
-            <span className={styles.sectionStripMeta}>Section 04 of 06</span>
           </div>
         </div>
         <div className={styles.statsInner}>
@@ -484,7 +481,6 @@ export default function LandingPage() {
         <div className={styles.sectionStrip}>
           <div className={styles.sectionStripInner}>
             <span className={styles.sectionStripLabel}>Client outcomes</span>
-            <span className={styles.sectionStripMeta}>Section 05 of 06</span>
           </div>
         </div>
         <div className={styles.testimonialsGrid}>
@@ -506,9 +502,6 @@ export default function LandingPage() {
             <span className={`${styles.sectionStripLabel} ${styles.sectionStripLabelDark}`}>
               Get started
             </span>
-            <span className={`${styles.sectionStripMeta} ${styles.sectionStripMetaDark}`}>
-              Section 06 of 06
-            </span>
           </div>
         </div>
         <div className={styles.contactInner}>
@@ -521,8 +514,8 @@ export default function LandingPage() {
             </h2>
             <p className={styles.contactBody}>
               Tell us about your program and we&rsquo;ll scope an engagement
-              within one business day. Most reports are delivered within
-              five to seven business days of document submission.
+              within one business day. Your report arrives well ahead of renewal —
+              so you walk into carrier negotiations with a position, not a deadline.
             </p>
             <ul className={styles.contactTrustList} aria-label="What to expect">
               {TRUST_POINTS.map((point) => (
@@ -565,7 +558,7 @@ export default function LandingPage() {
                 </div>
                 <div className={styles.formField}>
                   <label className={styles.formLabel} htmlFor="cf-renewal">Renewal date</label>
-                  <input id="cf-renewal" className={styles.formInput} type="text" placeholder="MM/YYYY" />
+                  <input id="cf-renewal" className={styles.formInput} type="text" placeholder="MM/DD/YYYY" />
                 </div>
               </div>
               <div className={styles.formField}>
@@ -587,9 +580,6 @@ export default function LandingPage() {
           <div className={styles.sectionStripInner}>
             <span className={`${styles.sectionStripLabel} ${styles.sectionStripLabelDark}`}>
               Market Intelligence
-            </span>
-            <span className={`${styles.sectionStripMeta} ${styles.sectionStripMetaDark}`}>
-              Section 04 of 06
             </span>
           </div>
         </div>
