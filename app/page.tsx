@@ -17,10 +17,10 @@ const NAV_ITEMS = [
 
 const JUMP_SECTIONS = [
   { label: "Assessment", id: "assessment" },
-  { label: "Market Intelligence", id: "market-intelligence" },
   { label: "How It Works", id: "how-it-works" },
-  { label: "Pricing", id: "pricing" },
   { label: "Insights", id: "insights-section" },
+  { label: "Pricing", id: "pricing" },
+  { label: "Market Intelligence", id: "market-intelligence" },
 ];
 
 const PANEL_ROWS: {
