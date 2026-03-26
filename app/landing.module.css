@@ -1001,3 +1001,289 @@
   text-align: right;
   letter-spacing: 0;
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Section 6 — Stats / Proof Bar
+   ═══════════════════════════════════════════════════════════════════ */
+
+.statsSection {
+  background: var(--offwhite);
+  border-bottom: 0.5px solid var(--rule);
+}
+
+.statsInner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 52px 64px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.statItem {
+  padding-right: 48px;
+  border-right: 0.5px solid var(--rule);
+  margin-right: 48px;
+}
+
+.statItem:last-child {
+  border-right: none;
+  padding-right: 0;
+  margin-right: 0;
+}
+
+.statNumber {
+  font-family: var(--font-cormorant), 'Cormorant Garamond', serif;
+  font-size: 52px;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--blue);
+  margin: 0 0 14px;
+  letter-spacing: 0;
+}
+
+.statLabel {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  color: var(--ink3);
+  margin: 0;
+  max-width: 200px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Section 7 — Testimonials
+   ═══════════════════════════════════════════════════════════════════ */
+
+.testimonialsSection {
+  background: var(--white);
+  padding: 0 0 72px;
+}
+
+.testimonialsGrid {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 64px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.testimonialCard {
+  border: 0.5px solid var(--rule);
+  border-top: 3px solid var(--gold);
+  padding: 32px 28px 28px;
+}
+
+.testimonialQuote {
+  font-family: var(--font-cormorant), 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.55;
+  color: var(--ink);
+  margin: 0 0 24px;
+}
+
+.testimonialDivider {
+  width: 24px;
+  height: 0.5px;
+  background: var(--rule);
+  margin: 0 0 20px;
+}
+
+.testimonialName {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  margin: 0 0 4px;
+}
+
+.testimonialRole {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.03em;
+  color: var(--ink4);
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Section 8 — Contact / CTA
+   ═══════════════════════════════════════════════════════════════════ */
+
+.contactSection {
+  background: var(--blue-dark2);
+  padding: 0 0 80px;
+}
+
+.contactInner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 56px 64px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.contactEyebrow {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 20px;
+}
+
+.contactHeadline {
+  font-family: var(--font-cormorant), 'Cormorant Garamond', serif;
+  font-size: clamp(26px, 2.5vw, 34px);
+  font-weight: 400;
+  line-height: 1.15;
+  color: #ffffff;
+  margin: 0 0 20px;
+  letter-spacing: 0;
+}
+
+.contactBody {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.75;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 0 36px;
+}
+
+.contactTrustList {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.contactTrustItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.contactTrustBullet {
+  width: 4px;
+  height: 4px;
+  background: var(--gold);
+  flex-shrink: 0;
+  margin-top: 7px;
+}
+
+.contactTrustText {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.65;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.52);
+}
+
+/* Form card */
+.contactFormCard {
+  background: var(--white);
+  border-top: 3px solid var(--gold);
+  border-left: 0.5px solid rgba(255, 255, 255, 0.06);
+  border-right: 0.5px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
+  padding: 32px;
+}
+
+.contactFormTitle {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0 0 24px;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.formLabel {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink3);
+}
+
+.formInput,
+.formSelect,
+.formTextarea {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--ink);
+  background: var(--offwhite);
+  border: 0.5px solid var(--rule);
+  border-radius: 0;
+  padding: 9px 11px;
+  outline: none;
+  transition: border-color 0.15s ease;
+  width: 100%;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.formInput:focus,
+.formSelect:focus,
+.formTextarea:focus {
+  border-color: var(--blue);
+}
+
+.formTextarea {
+  resize: vertical;
+  min-height: 84px;
+}
+
+.formSubmit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 13px;
+  background: var(--blue);
+  color: #ffffff;
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  margin-top: 20px;
+}
+
+.formSubmit:hover {
+  background: var(--blue-deep);
+}

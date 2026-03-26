@@ -126,6 +126,49 @@ const CARD3_ROWS: {
   { line: "Commercial Auto",   tag: "Push back",  tagKey: "verdictTagPush",       change: "−1.5%" },
 ];
 
+const STATS = [
+  {
+    number: "73%",
+    label: "of renewals analyzed show at least one line priced above current ISO benchmark",
+  },
+  {
+    number: "12",
+    label: "sections in every report — loss trends, coverage gaps, and line-by-line verdicts",
+  },
+  {
+    number: "30 days",
+    label: "before renewal is when VantageRisk delivers your report — when you can still act",
+  },
+  {
+    number: "$2.4M",
+    label: "average total program premium across our client engagements",
+  },
+];
+
+const TESTIMONIALS = [
+  {
+    quote: "We pushed back on our GL renewal for the first time in six years. VantageRisk showed us exactly where our carrier was overpriced relative to ISO benchmarks — our broker couldn't argue with the data.",
+    name: "Patricia Wellman",
+    role: "VP of Risk Management, Hargrove Industrial Group",
+  },
+  {
+    quote: "The coverage gap analysis alone was worth it. We had a sublimit eroded across three renewal cycles that nobody caught. VantageRisk flagged it, we fixed it, and six months later we had a claim in exactly that area.",
+    name: "Marcus Delgado",
+    role: "Director of Corporate Risk, Meridian Distribution Partners",
+  },
+  {
+    quote: "What impressed me most was the depth on Workers Comp. The loss trend narrative was more thorough than anything our TPA had produced. We walked into renewal knowing our story better than our carrier did.",
+    name: "Jennifer Sato",
+    role: "Risk & Insurance Manager, Cascadia Fabrication Co.",
+  },
+];
+
+const TRUST_POINTS = [
+  "Delivered 30 days before renewal, when you still have time to negotiate",
+  "No broker, carrier, or intermediary involvement — your data stays confidential",
+  "Flat-fee engagement scoped to your program size and number of lines",
+];
+
 const SOURCE_TIERS = [
   { label: "ISO Loss Cost Filings",           pct: 92, color: "var(--blue-data1)", weight: "92%" },
   { label: "NCCI Rate & Loss Reports",        pct: 87, color: "var(--blue-data2)", weight: "87%" },
@@ -413,6 +456,126 @@ export default function LandingPage() {
                 negotiating recommendations for each carrier.
               </p>
             </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ── Section 6 — Stats / Proof Bar ─────────────────────── */}
+      <section className={styles.statsSection} aria-label="Key metrics">
+        <div className={styles.sectionStrip}>
+          <div className={styles.sectionStripInner}>
+            <span className={styles.sectionStripLabel}>By the numbers</span>
+            <span className={styles.sectionStripMeta}>Section 04 of 06</span>
+          </div>
+        </div>
+        <div className={styles.statsInner}>
+          {STATS.map((stat) => (
+            <div key={stat.number} className={styles.statItem}>
+              <p className={styles.statNumber}>{stat.number}</p>
+              <p className={styles.statLabel}>{stat.label}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Section 7 — Testimonials ────────────────────────────── */}
+      <section id="insights-section" className={styles.testimonialsSection}>
+        <div className={styles.sectionStrip}>
+          <div className={styles.sectionStripInner}>
+            <span className={styles.sectionStripLabel}>Client outcomes</span>
+            <span className={styles.sectionStripMeta}>Section 05 of 06</span>
+          </div>
+        </div>
+        <div className={styles.testimonialsGrid}>
+          {TESTIMONIALS.map((t) => (
+            <div key={t.name} className={styles.testimonialCard}>
+              <p className={styles.testimonialQuote}>&ldquo;{t.quote}&rdquo;</p>
+              <div className={styles.testimonialDivider} aria-hidden="true" />
+              <p className={styles.testimonialName}>{t.name}</p>
+              <p className={styles.testimonialRole}>{t.role}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Section 8 — Contact / CTA ───────────────────────────── */}
+      <section id="pricing" className={styles.contactSection}>
+        <div className={styles.sectionStripDark}>
+          <div className={styles.sectionStripInner}>
+            <span className={`${styles.sectionStripLabel} ${styles.sectionStripLabelDark}`}>
+              Get started
+            </span>
+            <span className={`${styles.sectionStripMeta} ${styles.sectionStripMetaDark}`}>
+              Section 06 of 06
+            </span>
+          </div>
+        </div>
+        <div className={styles.contactInner}>
+
+          <div>
+            <p className={styles.contactEyebrow}>Scope an engagement</p>
+            <h2 className={styles.contactHeadline}>
+              Your next renewal<br />
+              starts here.
+            </h2>
+            <p className={styles.contactBody}>
+              Tell us about your program and we&rsquo;ll scope an engagement
+              within one business day. Most reports are delivered within
+              five to seven business days of document submission.
+            </p>
+            <ul className={styles.contactTrustList} aria-label="What to expect">
+              {TRUST_POINTS.map((point) => (
+                <li key={point} className={styles.contactTrustItem}>
+                  <span className={styles.contactTrustBullet} aria-hidden="true" />
+                  <span className={styles.contactTrustText}>{point}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className={styles.contactFormCard}>
+            <p className={styles.contactFormTitle}>Request access</p>
+            <form onSubmit={(e) => e.preventDefault()}>
+              <div className={styles.formRow}>
+                <div className={styles.formField}>
+                  <label className={styles.formLabel} htmlFor="cf-name">Full name</label>
+                  <input id="cf-name" className={styles.formInput} type="text" placeholder="Jane Smith" autoComplete="name" />
+                </div>
+                <div className={styles.formField}>
+                  <label className={styles.formLabel} htmlFor="cf-email">Work email</label>
+                  <input id="cf-email" className={styles.formInput} type="email" placeholder="jane@company.com" autoComplete="email" />
+                </div>
+              </div>
+              <div className={styles.formField}>
+                <label className={styles.formLabel} htmlFor="cf-company">Company name</label>
+                <input id="cf-company" className={styles.formInput} type="text" placeholder="Acme Manufacturing, Inc." autoComplete="organization" />
+              </div>
+              <div className={styles.formRow}>
+                <div className={styles.formField}>
+                  <label className={styles.formLabel} htmlFor="cf-premium">Total program premium</label>
+                  <select id="cf-premium" className={styles.formSelect}>
+                    <option value="">Select range</option>
+                    <option>Under $500K</option>
+                    <option>$500K – $1M</option>
+                    <option>$1M – $5M</option>
+                    <option>$5M – $20M</option>
+                    <option>Over $20M</option>
+                  </select>
+                </div>
+                <div className={styles.formField}>
+                  <label className={styles.formLabel} htmlFor="cf-renewal">Renewal date</label>
+                  <input id="cf-renewal" className={styles.formInput} type="text" placeholder="MM/YYYY" />
+                </div>
+              </div>
+              <div className={styles.formField}>
+                <label className={styles.formLabel} htmlFor="cf-message">Anything else we should know</label>
+                <textarea id="cf-message" className={styles.formTextarea} placeholder="Lines of coverage, specific concerns, prior claims…" />
+              </div>
+              <button type="submit" className={styles.formSubmit}>
+                Submit request
+              </button>
+            </form>
           </div>
 
         </div>
