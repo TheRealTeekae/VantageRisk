@@ -331,6 +331,7 @@ Return the complete RenewalReport JSON object.`,
 
   try {
     const cleaned = content.text
+      .trim()
       .replace(/^```json\s*/i, '')
       .replace(/^```\s*/i, '')
       .replace(/```\s*$/i, '')
