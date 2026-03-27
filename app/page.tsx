@@ -19,7 +19,7 @@ const JUMP_SECTIONS = [
   { label: "Assessment", id: "assessment" },
   { label: "How It Works", id: "how-it-works" },
   { label: "Insights", id: "insights-section" },
-  { label: "Pricing", id: "pricing" },
+  { label: "Get Started", id: "get-started" },
   { label: "Market Intelligence", id: "market-intelligence" },
 ];
 
@@ -357,9 +357,9 @@ export default function LandingPage() {
             )}
 
             <div className={styles.heroCtaGroup}>
-              <Link href="/upload" className={styles.heroPrimaryCta}>
+              <a href="#get-started" className={styles.heroPrimaryCta}>
                 Request access
-              </Link>
+              </a>
               <Link href="/report/sample" className={styles.heroSecondaryCta}>
                 See a sample report
               </Link>
@@ -622,7 +622,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── Section 8 — Contact / CTA ───────────────────────────── */}
-      <section id="pricing" className={styles.contactSection}>
+      <section id="get-started" className={styles.contactSection}>
         <div className={styles.sectionStripDark}>
           <div className={styles.sectionStripInner}>
             <span className={`${styles.sectionStripLabel} ${styles.sectionStripLabelDark}`}>
