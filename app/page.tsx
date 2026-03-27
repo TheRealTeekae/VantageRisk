@@ -223,6 +223,26 @@ const SOURCE_TIERS = [
   { label: "Proprietary Loss Index",          pct: 48, color: "var(--blue-data3)", weight: "48%" },
 ];
 
+// ─── Hero waveform paths ──────────────────────────────────────────
+// Five sine-wave approximations (cubic bezier S-command chains).
+// Background waves: chaotic, varying frequency/amplitude, low opacity.
+// Foreground signal: single clean wave at higher opacity.
+
+// Wave 1 — tight noise (HP=72, A=8, CY=140)
+const W1 = "M -72 140 C -46 132 -26 132 0 140 S 46 148 72 140 S 118 132 144 140 S 190 148 216 140 S 262 132 288 140 S 334 148 360 140 S 406 132 432 140 S 478 148 504 140 S 550 132 576 140 S 622 148 648 140 S 694 132 720 140 S 766 148 792 140 S 838 132 864 140 S 910 148 936 140 S 982 132 1008 140 S 1054 148 1080 140 S 1126 132 1152 140 S 1198 148 1224 140 S 1270 132 1296 140 S 1342 148 1368 140 S 1414 132 1440 140 S 1486 148 1512 140";
+
+// Wave 2 — medium background (HP=120, A=16, CY=180)
+const W2 = "M -120 180 C -76 164 -44 164 0 180 S 76 196 120 180 S 196 164 240 180 S 316 196 360 180 S 436 164 480 180 S 556 196 600 180 S 676 164 720 180 S 796 196 840 180 S 916 164 960 180 S 1036 196 1080 180 S 1156 164 1200 180 S 1276 196 1320 180 S 1396 164 1440 180 S 1516 196 1560 180";
+
+// Wave 3 — slow, wide background (HP=200, A=30, CY=100)
+const W3 = "M -200 100 C -127 70 -73 70 0 100 S 127 130 200 100 S 327 70 400 100 S 527 130 600 100 S 727 70 800 100 S 927 130 1000 100 S 1127 70 1200 100 S 1327 130 1400 100 S 1527 70 1600 100";
+
+// Wave 4 — very tight secondary noise (HP=46, A=5, CY=220)
+const W4 = "M -46 220 C -29 215 -17 215 0 220 S 29 225 46 220 S 75 215 92 220 S 121 225 138 220 S 167 215 184 220 S 213 225 230 220 S 259 215 276 220 S 305 225 322 220 S 351 215 368 220 S 397 225 414 220 S 443 215 460 220 S 489 225 506 220 S 535 215 552 220 S 581 225 598 220 S 627 215 644 220 S 673 225 690 220 S 719 215 736 220 S 765 225 782 220 S 811 215 828 220 S 857 225 874 220 S 903 215 920 220 S 949 225 966 220 S 995 215 1012 220 S 1041 225 1058 220 S 1087 215 1104 220 S 1133 225 1150 220 S 1179 215 1196 220 S 1225 225 1242 220 S 1271 215 1288 220 S 1317 225 1334 220 S 1363 215 1380 220 S 1409 225 1426 220 S 1455 215 1472 220";
+
+// Wave 5 — clean foreground signal (HP=260, A=22, CY=250)
+const W5 = "M -260 250 C -165 228 -95 228 0 250 S 165 272 260 250 S 425 228 520 250 S 685 272 780 250 S 945 228 1040 250 S 1205 272 1300 250 S 1465 228 1560 250";
+
 // ─── Page ─────────────────────────────────────────────────────────
 
 export default function LandingPage() {
@@ -272,6 +292,25 @@ export default function LandingPage() {
 
       {/* ── Section 1 — Hero ───────────────────────────────────── */}
       <section className={styles.hero} aria-labelledby="hero-headline">
+
+        {/* Background waveform — decorative, behind all content */}
+        <div className={styles.heroBg} aria-hidden="true">
+          <svg
+            className={styles.heroWaveSvg}
+            viewBox="0 0 1440 320"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="none"
+          >
+            {/* Chaotic background waves */}
+            <path d={W3} fill="none" stroke="white" strokeWidth="1.5" opacity="0.04" vectorEffect="non-scaling-stroke"/>
+            <path d={W1} fill="none" stroke="white" strokeWidth="1"   opacity="0.06" vectorEffect="non-scaling-stroke"/>
+            <path d={W4} fill="none" stroke="white" strokeWidth="0.8" opacity="0.04" vectorEffect="non-scaling-stroke"/>
+            <path d={W2} fill="none" stroke="white" strokeWidth="1.2" opacity="0.07" vectorEffect="non-scaling-stroke"/>
+            {/* Clean foreground signal */}
+            <path d={W5} fill="none" stroke="white" strokeWidth="2"   opacity="0.13" vectorEffect="non-scaling-stroke"/>
+          </svg>
+        </div>
+
         <div className={styles.heroInner}>
 
           {/* Left — copy */}

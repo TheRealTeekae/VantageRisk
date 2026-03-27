@@ -218,9 +218,50 @@
   border-bottom: 3px solid var(--blue-dark1);
   padding: 80px 0 0;
   min-height: 520px;
+  position: relative;
+  overflow: hidden;
 }
 
+/* Waveform background — absolutely positioned, below all hero content */
+.heroBg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  /* Fade out toward the right where the dashboard panel sits */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 38%,
+    rgba(0, 0, 0, 0) 68%
+  );
+  mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 38%,
+    rgba(0, 0, 0, 0) 68%
+  );
+}
+
+.heroWaveSvg {
+  position: absolute;
+  top: 0;
+  left: -60px;
+  width: calc(100% + 120px); /* overshoot on both sides for animation travel */
+  height: 100%;
+  animation: waveFloat 16s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes waveFloat {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100px); }
+}
+
+/* Hero content sits above the waveform */
 .heroInner {
+  position: relative;
+  z-index: 1;
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 64px;
