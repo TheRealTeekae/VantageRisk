@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import styles from "./upload.module.css";
 
 function formatTimeRemaining(ms: number): string {
   const totalSeconds = Math.round(ms / 1000);
@@ -195,28 +196,32 @@ export default function UploadPage() {
           )}
 
           {status === "uploading" ? (
-            <div>
-              <div className="text-xs text-slate-500 mb-2 truncate">
-                {phase === 1
-                  ? files && Array.from(files).map(f => f.name).join(", ")
-                  : "Processing documents..."}
+            <div className={styles.loaderWrap}>
+              <div className={styles.loader}>
+                <div className={`${styles.box} ${styles.box1}`}>
+                  <div className={styles.sideLeft} />
+                  <div className={styles.sideRight} />
+                  <div className={styles.sideTop} />
+                </div>
+                <div className={`${styles.box} ${styles.box2}`}>
+                  <div className={styles.sideLeft} />
+                  <div className={styles.sideRight} />
+                  <div className={styles.sideTop} />
+                </div>
+                <div className={`${styles.box} ${styles.box3}`}>
+                  <div className={styles.sideLeft} />
+                  <div className={styles.sideRight} />
+                  <div className={styles.sideTop} />
+                </div>
+                <div className={`${styles.box} ${styles.box4}`}>
+                  <div className={styles.sideLeft} />
+                  <div className={styles.sideRight} />
+                  <div className={styles.sideTop} />
+                </div>
               </div>
-              <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-                <div
-                  className="h-full rounded-full"
-                  style={{
-                    width: `${progress}%`,
-                    backgroundColor: "#0d1b2a",
-                    transition: "width 0.2s ease",
-                  }}
-                />
-              </div>
-              <div className="flex justify-between mt-1.5">
-                <p className="text-xs text-slate-400">
-                  {phase === 1 ? timeRemaining : "Processing documents..."}
-                </p>
-                <p className="text-xs text-slate-400">{progress}%</p>
-              </div>
+              <p className="text-xs text-slate-400">
+                {phase === 1 ? "Uploading documents…" : "Processing documents…"}
+              </p>
             </div>
           ) : (
             <button
