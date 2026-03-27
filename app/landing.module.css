@@ -399,6 +399,8 @@
 }
 
 .heroPrimaryCta {
+  position: relative;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -412,13 +414,27 @@
   text-transform: uppercase;
   text-decoration: none;
   border: 2px solid #c8974a;
-  transition: background 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  transition: color 250ms ease;
+  z-index: 0;
+}
+
+.heroPrimaryCta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #0d1b2a;
+  width: 0;
+  z-index: -1;
+  transition: width 250ms ease;
+}
+
+.heroPrimaryCta:hover::before {
+  width: 100%;
 }
 
 .heroPrimaryCta:hover {
-  background: #e0b87a;
-  border-color: #e0b87a;
-  box-shadow: 0 0 24px rgba(200, 151, 74, 0.35);
+  color: #e0b87a;
 }
 
 .heroSecondaryCta {
