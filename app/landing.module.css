@@ -423,7 +423,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: #0d1b2a;
+  background: #f0f4f8;
   width: 0;
   z-index: -1;
   transition: width 250ms ease;
@@ -434,7 +434,7 @@
 }
 
 .heroPrimaryCta:hover {
-  color: #e0b87a;
+  color: #0d1b2a;
 }
 
 .heroSecondaryCta {
