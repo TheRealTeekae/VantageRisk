@@ -249,9 +249,13 @@ export default function LandingPage() {
   const [expanded, setExpanded] = useState(false);
   const [activeSection, setActiveSection] = useState("assessment");
 
-  function scrollTo(id: string) {
+  function jumpToSection(id: string) {
     setActiveSection(id);
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    const el = document.getElementById(id);
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.scrollY - 88;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
   }
 
   return (
@@ -427,7 +431,7 @@ export default function LandingPage() {
                   className={`${styles.jumpNavBtn} ${
                     activeSection === section.id ? styles.jumpNavBtnActive : ""
                   }`}
-                  onClick={() => scrollTo(section.id)}
+                  onClick={() => jumpToSection(section.id)}
                 >
                   {section.label}
                 </button>
