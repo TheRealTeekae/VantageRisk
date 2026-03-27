@@ -1,0 +1,504 @@
+/* ═══════════════════════════════════════════════════════════════════
+   VantageRisk — Who We Serve Page Styles
+   No Tailwind. No gradients. No shadows. Border-radius max 2px.
+   Fonts: IBM Plex Sans (body/UI) · Cormorant Garamond (display) ·
+          Libre Baskerville (section headlines)
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ─── Design Tokens ──────────────────────────────────────────────── */
+:root {
+  --blue:        #2b47c9;
+  --blue-deep:   #1e35a8;
+  --blue-light:  #3d5ae0;
+  --blue-dark1:  #152880;
+  --blue-dark2:  #0e1d5a;
+  --white:       #ffffff;
+  --offwhite:    #f7f7f5;
+  --gold:        #e8b84b;
+  --gold-deep:   #c49a2a;
+  --ink:         #0a1218;
+  --ink2:        #1e2e3a;
+  --ink3:        #3a5060;
+  --ink4:        #7a90a0;
+  --rule:        #e8e8e4;
+}
+
+/* ─── Page Shell ─────────────────────────────────────────────────── */
+.page {
+  width: 100%;
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-weight: 400;
+  color: var(--ink);
+  background: var(--white);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* ─── Topbar ─────────────────────────────────────────────────────── */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--blue-deep);
+  border-bottom: 2px solid var(--blue-dark1);
+  height: 52px;
+}
+
+.topbarInner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 64px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.wordmark {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.wordmarkVantage { color: #ffffff; }
+.wordmarkRisk    { color: var(--gold); }
+
+.topbarNavWrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.topbarNavList {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 0;
+}
+
+.topbarNavLink {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.58);
+  text-decoration: none;
+  padding: 0 18px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.topbarNavLink:hover {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.topbarNavLinkActive {
+  color: #ffffff;
+  border-bottom-color: var(--gold);
+}
+
+.topbarRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.topbarSignIn {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.52);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.topbarSignIn:hover { color: rgba(255, 255, 255, 0.8); }
+
+.topbarCta {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--gold);
+  text-decoration: none;
+  padding: 7px 16px;
+  border-radius: 1px;
+  transition: background 0.15s ease;
+}
+
+.topbarCta:hover { background: var(--gold-deep); color: var(--white); }
+
+/* ─── Section label strip ────────────────────────────────────────── */
+.sectionStrip {
+  background: var(--offwhite);
+  border-bottom: 0.5px solid var(--rule);
+}
+
+.sectionStripInner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 64px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sectionStripLabel {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink4);
+}
+
+/* ─── Centered section header ────────────────────────────────────── */
+.sectionHeader {
+  padding: 56px 64px 40px;
+}
+
+.sectionHeaderInner {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.sectionHeaderEyebrow {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+  margin: 0 0 18px;
+}
+
+.sectionHeaderHeadline {
+  font-family: var(--font-libre-baskerville), 'Libre Baskerville', serif;
+  font-size: clamp(26px, 2.8vw, 38px);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--ink);
+  margin: 0 0 20px;
+  letter-spacing: -0.01em;
+}
+
+.sectionHeaderRule {
+  width: 36px;
+  height: 2px;
+  background: var(--gold);
+  border: none;
+  margin: 0 auto 20px;
+}
+
+.sectionHeaderSubline {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.75;
+  letter-spacing: 0.02em;
+  color: var(--ink3);
+  margin: 0;
+}
+
+/* ─── Hero ───────────────────────────────────────────────────────── */
+.hero {
+  background: var(--blue-dark2);
+  border-bottom: 2px solid var(--blue-dark1);
+  padding: 96px 64px 100px;
+}
+
+.heroInner {
+  max-width: 860px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.heroEyebrow {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 28px;
+}
+
+.heroHeadline {
+  font-family: var(--font-libre-baskerville), 'Libre Baskerville', serif;
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 400;
+  line-height: 1.15;
+  color: #ffffff;
+  letter-spacing: -0.015em;
+  margin: 0 0 28px;
+}
+
+.heroRule {
+  width: 40px;
+  height: 2px;
+  background: var(--gold);
+  border: none;
+  margin: 0 auto 28px;
+}
+
+.heroSubline {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.75;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.58);
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+/* ─── Audience Cards Section ─────────────────────────────────────── */
+.audienceSection {
+  background: var(--offwhite);
+  padding-bottom: 80px;
+}
+
+.audienceGrid {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 64px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.audienceCard {
+  background: var(--white);
+  border: 0.5px solid var(--rule);
+  border-top: 2px solid var(--gold);
+  border-radius: 2px;
+  padding: 40px 36px 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.audienceCardIcon {
+  color: var(--gold);
+  margin-bottom: 20px;
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+.audienceLabel {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  margin: 0 0 14px;
+}
+
+.audienceCardHeadline {
+  font-family: var(--font-libre-baskerville), 'Libre Baskerville', serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.28;
+  color: var(--ink);
+  margin: 0 0 24px;
+  letter-spacing: -0.01em;
+}
+
+.audienceDivider {
+  width: 24px;
+  height: 1px;
+  background: var(--rule);
+  margin: 0 0 24px;
+  border: none;
+}
+
+.audiencePainLabel {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin: 0 0 8px;
+}
+
+.audiencePainBody {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.72;
+  letter-spacing: 0.02em;
+  color: var(--ink3);
+  margin: 0 0 22px;
+}
+
+.audienceSolutionLabel {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+  margin: 0 0 8px;
+}
+
+.audienceSolutionBody {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.72;
+  letter-spacing: 0.02em;
+  color: var(--ink3);
+  margin: 0;
+}
+
+/* ─── Unifying Section ───────────────────────────────────────────── */
+.unifySection {
+  background: var(--white);
+  border-top: 0.5px solid var(--rule);
+  border-bottom: 0.5px solid var(--rule);
+}
+
+.unifyInner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 80px 64px;
+  text-align: center;
+}
+
+.unifyEyebrow {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+  margin: 0 0 20px;
+}
+
+.unifyHeadline {
+  font-family: var(--font-cormorant), 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 3vw, 42px);
+  font-weight: 400;
+  line-height: 1.18;
+  color: var(--ink);
+  letter-spacing: 0;
+  margin: 0 0 20px;
+}
+
+.unifyRule {
+  width: 36px;
+  height: 2px;
+  background: var(--gold);
+  border: none;
+  margin: 0 auto 24px;
+}
+
+.unifyBody {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+  color: var(--ink3);
+  margin: 0;
+}
+
+/* ─── CTA Strip ──────────────────────────────────────────────────── */
+.ctaStrip {
+  background: var(--blue-deep);
+  border-top: 2px solid var(--blue-dark1);
+}
+
+.ctaInner {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 80px 64px;
+  text-align: center;
+}
+
+.ctaEyebrow {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 24px;
+}
+
+.ctaHeadline {
+  font-family: var(--font-cormorant), 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 3vw, 44px);
+  font-weight: 400;
+  line-height: 1.18;
+  color: #ffffff;
+  letter-spacing: 0;
+  margin: 0 0 20px;
+}
+
+.ctaBody {
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.75;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.52);
+  margin: 0 0 40px;
+}
+
+.ctaButton {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 48px;
+  background: var(--gold);
+  color: var(--ink);
+  font-family: var(--font-ibm-plex-sans), 'IBM Plex Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 2px solid var(--gold);
+  box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.35);
+  transition: color 250ms ease;
+  z-index: 0;
+}
+
+.ctaButton::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #f0f4f8;
+  width: 0;
+  z-index: -1;
+  transition: width 250ms ease;
+}
+
+.ctaButton:hover::before {
+  width: 100%;
+}
+
+.ctaButton:hover {
+  color: var(--ink);
+}
